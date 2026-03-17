@@ -79,7 +79,7 @@ Template ID:
 ## Dashboard Features
 -   use this link for admin  file:///D:/main/payment-dashboard/payment-dashboard/frontend/dashboard/index.html
 - 🔍 Search by name, email, transaction ID, country, amount
-- 📄 Pagination (20 per page)
+- 📄 Pagination (100 per page)
 - 🖱️ Click any row → full details popup (card number, address, etc.)
 - 🔄 Refresh button
 - 🔐 JWT login (token saved in localStorage, valid 24 hours)
