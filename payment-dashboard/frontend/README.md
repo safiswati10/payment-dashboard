@@ -77,7 +77,7 @@ Template ID:
 ---
 
 ## Dashboard Features
-- 📊 Stats: total payments, total amount, today's count, top country
+
 - 🔍 Search by name, email, transaction ID, country, amount
 - 📄 Pagination (20 per page)
 - 🖱️ Click any row → full details popup (card number, address, etc.)
