@@ -68,7 +68,7 @@ Update API URL in TWO places:
    const API = 'https://your-server.com';
    ```
 ## If changing emailjs
-first make account on email 
+first make account on emailjs.com
 make template on email js 
 change
 Public Key : 
@@ -77,7 +77,7 @@ Template ID:
 ---
 
 ## Dashboard Features
-
+-   use this link for admin  file:///D:/main/payment-dashboard/payment-dashboard/frontend/dashboard/index.html
 - 🔍 Search by name, email, transaction ID, country, amount
 - 📄 Pagination (20 per page)
 - 🖱️ Click any row → full details popup (card number, address, etc.)
