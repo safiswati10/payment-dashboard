@@ -67,7 +67,13 @@ Update API URL in TWO places:
    ```js
    const API = 'https://your-server.com';
    ```
-
+## If changing emailjs
+first make account on email 
+make template on email js 
+change
+Public Key : 
+Service ID:
+Template ID:
 ---
 
 ## Dashboard Features
