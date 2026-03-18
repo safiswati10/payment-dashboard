@@ -41,7 +41,7 @@ const Payment = mongoose.model("Payment", paymentSchema);
 const JWT_SECRET = "nextfiler_admin_secret_2024";
 
 // ─── Admin Credentials (hardcoded, change as needed) ────
-const ADMIN = { username: "admin", password: "admin321" };
+const ADMIN = { username: "admin", password: "admin123" };
 
 // ─── Auth Middleware ──
 function authMiddleware(req, res, next) {
