@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Online Payment</title>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <h1>Online Payment</h1>
+    <p class="subtitle">Make a payment using any of:</p>
+
+
+    <div class="card-logos">
+      <svg class="card-logo" viewBox="0 0 52 32" xmlns="http://www.w3.org/2000/svg">
+        <rect width="52" height="32" fill="#fff" />
+        <text x="7" y="22" font-size="14" font-weight="700" font-family="Arial" fill="#1a1f71">VISA</text>
+      </svg>
+      <svg class="card-logo" viewBox="0 0 52 32" xmlns="http://www.w3.org/2000/svg">
+        <rect width="52" height="32" fill="#fff" />
+        <circle cx="20" cy="16" r="10" fill="#eb001b" />
+        <circle cx="32" cy="16" r="10" fill="#f79e1b" />
+        <path d="M26 8.5a10 10 0 0 1 0 15 10 10 0 0 1 0-15z" fill="#ff5f00" opacity="0.9" />
+      </svg>
+      <svg class="card-logo" viewBox="0 0 52 32" xmlns="http://www.w3.org/2000/svg">
+        <rect width="52" height="32" fill="#fff" />
+        <text x="3" y="13" font-size="6.5" font-weight="700" font-family="Arial" fill="#231f20">DISCOVER</text>
+        <text x="3" y="23" font-size="6" font-family="Arial" fill="#555">NETWORK</text>
+        <circle cx="40" cy="16" r="9" fill="#f76f20" />
+      </svg>
+      <svg class="card-logo" viewBox="0 0 52 32" xmlns="http://www.w3.org/2000/svg">
+        <rect width="52" height="32" fill="#2671b2" rx="2" />
+        <text x="4" y="14" font-size="6.5" font-weight="700" font-family="Arial" fill="#fff">AMERICAN</text>
+        <text x="4" y="24" font-size="6.5" font-weight="700" font-family="Arial" fill="#fff">EXPRESS</text>
+      </svg>
+    </div>
+
+    <!-- SUCCESS MESSAGE -->
+    <div class="success-box" id="successBox" style="font-size: 1.1rem; padding: 24px 22px; line-height: 1.8;">
+      <strong>Thank you!!! Your payment has been submitted successfully with transaction id <span id="txnId"></span>. It
+        will take 30 Minutes to reflect in system. You will received the payment receipt on email shortly.</strong>
+    </div>
+
+    <!-- FORM -->
+    <div id="paymentForm">
+
+      <!-- Section 1: Card Info -->
+      <div class="form-section">
+        <div class="payment-info-header">
+          <h2 style="font-size: 190%;"> <span class="card-icon">💳</span> Payment Information</h2>
+        </div>
+        <p class="payment-info-sub" style="font-size: 75%;">You are entering the secure site, Verify your card details
+          <br> before submitting the payment.</p>
+        <div class="section-title" style="margin-top:18px;">Card Information</div>
+
+        <div class="form-group">
+          <label>Name On Card <span class="req">*</span></label>
+          <input type="text" id="nameOnCard" placeholder="John Doe">
+          <div class="error-msg" id="nameErr">Please enter the name on card.</div>
+        </div>
+
+        <div class="form-group">
+          <label>Card Number <span class="req">*</span></label>
+          <div class="card-number-wrap">
+            <input type="text" id="cardNumber" maxlength="19" oninput="formatCardNumber(this)"
+              placeholder="XXXX XXXX XXXX XXXX">
+            <div class="card-info-row">
+              <span id="cardTypeBadge"></span>
+              <span id="cardValidIcon"></span>
+            </div>
+          </div>
+          <div class="error-msg" id="cardErr">Please enter a valid card number.</div>
+        </div>
+
+        <div class="row-2">
+          <div class="form-group">
+            <label>Expiry Month <span class="req">*</span></label>
+            <select id="expiryMonth">
+              <option value="">Select</option>
+              <option>01</option>
+              <option>02</option>
+              <option>03</option>
+              <option>04</option>
+              <option>05</option>
+              <option>06</option>
+              <option>07</option>
+              <option>08</option>
+              <option>09</option>
+              <option>10</option>
+              <option>11</option>
+              <option>12</option>
+            </select>
+            <div class="error-msg" id="monthErr">Please select expiry month.</div>
+          </div>
+          <div class="form-group">
+            <label>Expiry Year <span class="req">*</span></label>
+            <select id="expiryYear">
+              <option value="">Select</option>
+              <option>2025</option>
+              <option>2026</option>
+              <option>2027</option>
+              <option>2028</option>
+              <option>2029</option>
+              <option>2030</option>
+              <option>2031</option>
+              <option>2032</option>
+            </select>
+            <div class="error-msg" id="yearErr">Please select expiry year.</div>
+          </div>
+        </div>
+
+        <div class="row-2">
+          <div class="form-group">
+            <label>CVV/CSV <span class="req">*</span></label>
+            <input type="text" id="cvv" maxlength="4" placeholder="•••">
+            <div class="error-msg" id="cvvErr">Please enter a valid CVV.</div>
+          </div>
+          <div class="form-group">
+            <label>Amount ($) <span class="req">*</span></label>
+            <input type="text" id="amount" placeholder="0.00">
+            <div class="error-msg" id="amountErr">Please enter the amount.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Contact Info -->
+      <div class="form-section">
+        <div class="section-title">Contact Details</div>
+
+        <div class="row-2">
+          <div class="form-group">
+            <label>Email <span class="req">*</span></label>
+            <div class="email-wrap">
+              <input type="email" id="email" placeholder="you@example.com">
+              <span class="email-icon">✉</span>
+            </div>
+            <div class="error-msg" id="emailErr">Please enter a valid email.</div>
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <div class="phone-wrap">
+              <div id="phoneFlag">🇺🇸 <span class="dial-sel">+1</span> <span class="arrow">▾</span></div>
+              <div id="phoneDropdown"></div>
+              <input type="text" id="phoneInput" placeholder="2015551234">
+            </div>
+            <div class="address-sub" id="phoneHint">Format: 10 digits (e.g. 2015551234)</div>
+            <div class="error-msg" id="phoneErr"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Address -->
+      <div class="form-section">
+        <div class="section-title">Billing Address</div>
+
+        <div class="form-group">
+          <label>Address <span class="req">*</span></label>
+          <input type="text" id="addr1" placeholder="Street address">
+          <div class="address-sub">Address Line 1</div>
+        </div>
+        <div class="form-group">
+          <input type="text" id="addr2" placeholder="Apt, suite, etc. (optional)">
+          <div class="address-sub">Address Line 2</div>
+        </div>
+        <div class="row-2" style="margin-bottom:16px">
+          <div class="form-group" style="margin-bottom:0">
+            <select id="country">
+              <option>United States of America</option>
+              <option>United Kingdom</option>
+              <option>Pakistan</option>
+              <option>India</option>
+              <option>Australia</option>
+              <option>Canada</option>
+              <option>Germany</option>
+              <option>France</option>
+              <option>UAE</option>
+              <option>Saudi Arabia</option>
+              <option>Turkey</option>
+              <option>Egypt</option>
+              <option>Iran</option>
+              <option>Indonesia</option>
+              <option>Malaysia</option>
+              <option>Singapore</option>
+              <option>South Korea</option>
+              <option>Japan</option>
+              <option>China</option>
+              <option>Russia</option>
+              <option>Brazil</option>
+              <option>Mexico</option>
+              <option>South Africa</option>
+              <option>Nigeria</option>
+              <option>Kenya</option>
+              <option>Netherlands</option>
+              <option>Italy</option>
+              <option>Spain</option>
+              <option>Sweden</option>
+              <option>Norway</option>
+              <option>Denmark</option>
+              <option>Finland</option>
+              <option>Poland</option>
+              <option>Ukraine</option>
+              <option>Belgium</option>
+              <option>Switzerland</option>
+              <option>Austria</option>
+              <option>Portugal</option>
+              <option>Greece</option>
+              <option>Czech Republic</option>
+              <option>Hungary</option>
+              <option>Romania</option>
+              <option>Philippines</option>
+              <option>Thailand</option>
+              <option>Vietnam</option>
+              <option>Bangladesh</option>
+              <option>Sri Lanka</option>
+              <option>Nepal</option>
+              <option>Afghanistan</option>
+              <option>Iraq</option>
+              <option>Jordan</option>
+              <option>Lebanon</option>
+              <option>Israel</option>
+              <option>Qatar</option>
+              <option>Kuwait</option>
+              <option>Oman</option>
+              <option>Bahrain</option>
+              <option>Yemen</option>
+              <option>Morocco</option>
+              <option>Algeria</option>
+              <option>Tunisia</option>
+              <option>Sudan</option>
+              <option>Ethiopia</option>
+              <option>Ghana</option>
+              <option>Tanzania</option>
+              <option>Uganda</option>
+              <option>Argentina</option>
+              <option>Chile</option>
+              <option>Colombia</option>
+              <option>Peru</option>
+              <option>Venezuela</option>
+              <option>New Zealand</option>
+              <option>Ireland</option>
+              <option>Luxembourg</option>
+              <option>Lithuania</option>
+              <option>Latvia</option>
+              <option>Estonia</option>
+              <option>Slovenia</option>
+              <option>Croatia</option>
+              <option>Bosnia</option>
+              <option>Serbia</option>
+              <option>Bulgaria</option>
+              <option>Slovakia</option>
+            </select>
+             <div class="address-sub">Country</div>
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <select id="state">
+              <option value="">Select State / Province</option>
+            </select>
+            <div class="address-sub">State / Province / Region</div>
+          </div>
+        </div>
+        <div class="row-2">
+          <div class="form-group">
+              <input type="text" id="city" placeholder="City">
+            <div class="address-sub">City</div>
+          </div>
+          <div class="form-group">
+            <input type="text" id="postal" placeholder="Postal Code">
+            <div class="address-sub">Postal Code</div>
+          </div>
+        </div>
+
+        <button class="btn-submit" onclick="handleSubmit()">Pay Now</button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <script>
+  // ── Country → States Data ────
+  const COUNTRY_STATES = {
+    "United States of America": ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"],
+    "United Kingdom": ["England","Scotland","Wales","Northern Ireland"],
+    "Pakistan": ["Punjab","Sindh","Khyber Pakhtunkhwa","Balochistan","Gilgit-Baltistan","Azad Kashmir","Islamabad Capital Territory"],
+    "India": ["Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand","West Bengal","Delhi","Jammu & Kashmir","Ladakh"],
+    "Australia": ["New South Wales","Victoria","Queensland","Western Australia","South Australia","Tasmania","Australian Capital Territory","Northern Territory"],
+    "Canada": ["Alberta","British Columbia","Manitoba","New Brunswick","Newfoundland and Labrador","Northwest Territories","Nova Scotia","Nunavut","Ontario","Prince Edward Island","Quebec","Saskatchewan","Yukon"],
+    "Germany": ["Baden-Württemberg","Bavaria","Berlin","Brandenburg","Bremen","Hamburg","Hesse","Lower Saxony","Mecklenburg-Vorpommern","North Rhine-Westphalia","Rhineland-Palatinate","Saarland","Saxony","Saxony-Anhalt","Schleswig-Holstein","Thuringia"],
+    "France": ["Auvergne-Rhône-Alpes","Bourgogne-Franche-Comté","Bretagne","Centre-Val de Loire","Corse","Grand Est","Hauts-de-France","Île-de-France","Normandie","Nouvelle-Aquitaine","Occitanie","Pays de la Loire","Provence-Alpes-Côte d'Azur"],
+    "UAE": ["Abu Dhabi","Dubai","Sharjah","Ajman","Umm Al Quwain","Ras Al Khaimah","Fujairah"],
+    "Saudi Arabia": ["Riyadh","Makkah","Madinah","Eastern Province","Asir","Tabuk","Hail","Northern Borders","Jawf","Qassim","Jizan","Najran","Bahah"],
+    "Turkey": ["Adana","Ankara","Antalya","Bursa","Diyarbakır","Erzurum","Eskişehir","Gaziantep","Istanbul","İzmir","Kayseri","Kocaeli","Konya","Malatya","Mersin","Samsun","Şanlıurfa","Trabzon"],
+    "Egypt": ["Cairo","Alexandria","Giza","Qalyubia","Port Said","Suez","Luxor","Aswan","Asyut","Sohag","Qena","Minya","Beni Suef","Fayyum","Sharqia","Dakahlia","Gharbia","Kafr el-Sheikh","Monufia","Beheira","Ismailia","Matrouh","North Sinai","South Sinai","Red Sea","New Valley","Damietta"],
+    "Indonesia": ["Aceh","North Sumatra","West Sumatra","Riau","Jambi","South Sumatra","Bengkulu","Lampung","Jakarta","West Java","Central Java","Yogyakarta","East Java","Bali","West Nusa Tenggara","East Nusa Tenggara","West Kalimantan","Central Kalimantan","South Kalimantan","East Kalimantan","North Kalimantan","North Sulawesi","Central Sulawesi","South Sulawesi","Southeast Sulawesi","Maluku","North Maluku","Papua","West Papua"],
+    "Malaysia": ["Johor","Kedah","Kelantan","Melaka","Negeri Sembilan","Pahang","Perak","Perlis","Penang","Sabah","Sarawak","Selangor","Terengganu","Kuala Lumpur","Labuan","Putrajaya"],
+    "China": ["Anhui","Fujian","Gansu","Guangdong","Guizhou","Hainan","Hebei","Heilongjiang","Henan","Hubei","Hunan","Jiangsu","Jiangxi","Jilin","Liaoning","Qinghai","Shaanxi","Shandong","Shanxi","Sichuan","Yunnan","Zhejiang","Beijing","Chongqing","Shanghai","Tianjin","Guangxi","Inner Mongolia","Ningxia","Tibet","Xinjiang","Hong Kong","Macau"],
+    "Russia": ["Moscow","Saint Petersburg","Novosibirsk","Yekaterinburg","Kazan","Nizhny Novgorod","Chelyabinsk","Samara","Ufa","Rostov-on-Don","Krasnoyarsk","Perm","Voronezh","Volgograd","Krasnodar"],
+    "Brazil": ["Acre","Alagoas","Amapá","Amazonas","Bahia","Ceará","Distrito Federal","Espírito Santo","Goiás","Maranhão","Mato Grosso","Mato Grosso do Sul","Minas Gerais","Pará","Paraíba","Paraná","Pernambuco","Piauí","Rio de Janeiro","Rio Grande do Norte","Rio Grande do Sul","Rondônia","Roraima","Santa Catarina","São Paulo","Sergipe","Tocantins"],
+    "Mexico": ["Aguascalientes","Baja California","Baja California Sur","Campeche","Chiapas","Chihuahua","Coahuila","Colima","Durango","Guanajuato","Guerrero","Hidalgo","Jalisco","Mexico City","México","Michoacán","Morelos","Nayarit","Nuevo León","Oaxaca","Puebla","Querétaro","Quintana Roo","San Luis Potosí","Sinaloa","Sonora","Tabasco","Tamaulipas","Tlaxcala","Veracruz","Yucatán","Zacatecas"],
+    "Argentina": ["Buenos Aires","Catamarca","Chaco","Chubut","Córdoba","Corrientes","Entre Ríos","Formosa","Jujuy","La Pampa","La Rioja","Mendoza","Misiones","Neuquén","Río Negro","Salta","San Juan","San Luis","Santa Cruz","Santa Fe","Santiago del Estero","Tierra del Fuego","Tucumán"],
+    "South Africa": ["Eastern Cape","Free State","Gauteng","KwaZulu-Natal","Limpopo","Mpumalanga","North West","Northern Cape","Western Cape"],
+    "Nigeria": ["Abia","Adamawa","Akwa Ibom","Anambra","Bauchi","Bayelsa","Benue","Borno","Cross River","Delta","Ebonyi","Edo","Ekiti","Enugu","FCT","Gombe","Imo","Jigawa","Kaduna","Kano","Katsina","Kebbi","Kogi","Kwara","Lagos","Nasarawa","Niger","Ogun","Ondo","Osun","Oyo","Plateau","Rivers","Sokoto","Taraba","Yobe","Zamfara"],
+    "Philippines": ["Abra","Agusan del Norte","Agusan del Sur","Aklan","Albay","Antique","Apayao","Aurora","Basilan","Bataan","Batanes","Batangas","Benguet","Biliran","Bohol","Bukidnon","Bulacan","Cagayan","Camarines Norte","Camarines Sur","Camiguin","Capiz","Catanduanes","Cavite","Cebu","Compostela Valley","Cotabato","Davao del Norte","Davao del Sur","Davao Occidental","Davao Oriental","Dinagat Islands","Eastern Samar","Guimaras","Ifugao","Ilocos Norte","Ilocos Sur","Iloilo","Isabela","Kalinga","La Union","Laguna","Lanao del Norte","Lanao del Sur","Leyte","Maguindanao","Marinduque","Masbate","Metro Manila","Misamis Occidental","Misamis Oriental","Mountain Province","Negros Occidental","Negros Oriental","Northern Samar","Nueva Ecija","Nueva Vizcaya","Occidental Mindoro","Oriental Mindoro","Palawan","Pampanga","Pangasinan","Quezon","Quirino","Rizal","Romblon","Samar","Sarangani","Siquijor","Sorsogon","South Cotabato","Southern Leyte","Sultan Kudarat","Sulu","Surigao del Norte","Surigao del Sur","Tarlac","Tawi-Tawi","Zambales","Zamboanga del Norte","Zamboanga del Sur","Zamboanga Sibugay"],
+    "Thailand": ["Bangkok","Chiang Mai","Chiang Rai","Chonburi","Khon Kaen","Nakhon Ratchasima","Nonthaburi","Pathum Thani","Phuket","Rayong","Samut Prakan","Songkhla","Surat Thani","Ubon Ratchathani","Udon Thani"],
+    "Iran": ["Tehran","Isfahan","Fars","Khorasan Razavi","Khuzestan","Mazandaran","East Azerbaijan","West Azerbaijan","Gilan","Kerman","Alborz","Hamadan","Lorestan","Markazi","Qom","Semnan","Sistan and Baluchestan","Yazd","Zanjan"],
+    "Iraq": ["Baghdad","Basra","Mosul","Erbil","Najaf","Karbala","Kirkuk","Sulaymaniyah","Duhok","Anbar","Diyala","Babil","Wasit","Muthanna","Qadisiyyah","Dhi Qar","Maysan","Saladin"],
+    "Jordan": ["Amman","Zarqa","Irbid","Balqa","Madaba","Karak","Tafilah","Ma'an","Aqaba","Jerash","Ajloun","Mafraq"],
+    "Morocco": ["Casablanca-Settat","Rabat-Salé-Kénitra","Marrakech-Safi","Fès-Meknès","Tanger-Tétouan-Al Hoceïma","Oriental","Drâa-Tafilalet","Souss-Massa","Guelmim-Oued Noun","Laâyoune-Sakia El Hamra","Dakhla-Oued Ed-Dahab","Béni Mellal-Khénifra"],
+    "Bangladesh": ["Barisal","Chittagong","Dhaka","Khulna","Mymensingh","Rajshahi","Rangpur","Sylhet"],
+    "Sri Lanka": ["Central","Eastern","North Central","Northern","North Western","Sabaragamuwa","Southern","Uva","Western"],
+    "Nepal": ["Bagmati","Gandaki","Karnali","Koshi","Lumbini","Madhesh","Sudurpashchim"],
+    "Vietnam": ["An Giang","Bà Rịa–Vũng Tàu","Bắc Giang","Bắc Kạn","Bạc Liêu","Bắc Ninh","Bến Tre","Bình Định","Bình Dương","Bình Phước","Bình Thuận","Cà Mau","Cao Bằng","Đắk Lắk","Đắk Nông","Điện Biên","Đồng Nai","Đồng Tháp","Gia Lai","Hà Giang","Hà Nam","Hà Tĩnh","Hải Dương","Hậu Giang","Hòa Bình","Hưng Yên","Khánh Hòa","Kiên Giang","Kon Tum","Lai Châu","Lâm Đồng","Lạng Sơn","Lào Cai","Long An","Nam Định","Nghệ An","Ninh Bình","Ninh Thuận","Phú Thọ","Phú Yên","Quảng Bình","Quảng Nam","Quảng Ngãi","Quảng Ninh","Quảng Trị","Sóc Trăng","Sơn La","Tây Ninh","Thái Bình","Thái Nguyên","Thanh Hóa","Thừa Thiên Huế","Tiền Giang","Trà Vinh","Tuyên Quang","Vĩnh Long","Vĩnh Phúc","Yên Bái","Hà Nội","Hải Phòng","Đà Nẵng","Hồ Chí Minh","Cần Thơ"],
+    "South Korea": ["Seoul","Busan","Daegu","Incheon","Gwangju","Daejeon","Ulsan","Sejong","Gyeonggi","Gangwon","North Chungcheong","South Chungcheong","North Jeolla","South Jeolla","North Gyeongsang","South Gyeongsang","Jeju"],
+    "Japan": ["Hokkaido","Aomori","Iwate","Miyagi","Akita","Yamagata","Fukushima","Ibaraki","Tochigi","Gunma","Saitama","Chiba","Tokyo","Kanagawa","Niigata","Toyama","Ishikawa","Fukui","Yamanashi","Nagano","Shizuoka","Aichi","Mie","Shiga","Kyoto","Osaka","Hyogo","Nara","Wakayama","Tottori","Shimane","Okayama","Hiroshima","Yamaguchi","Tokushima","Kagawa","Ehime","Kochi","Fukuoka","Saga","Nagasaki","Kumamoto","Oita","Miyazaki","Kagoshima","Okinawa"],
+    "Singapore": ["Central Region","East Region","North Region","North-East Region","West Region"],
+    "New Zealand": ["Northland","Auckland","Waikato","Bay of Plenty","Gisborne","Hawke's Bay","Taranaki","Manawatu-Whanganui","Wellington","Tasman","Nelson","Marlborough","West Coast","Canterbury","Otago","Southland"],
+    "Netherlands": ["Drenthe","Flevoland","Friesland","Gelderland","Groningen","Limburg","North Brabant","North Holland","Overijssel","South Holland","Utrecht","Zeeland"],
+    "Italy": ["Abruzzo","Basilicata","Calabria","Campania","Emilia-Romagna","Friuli-Venezia Giulia","Lazio","Liguria","Lombardy","Marche","Molise","Piedmont","Apulia","Sardinia","Sicily","Trentino-Alto Adige","Tuscany","Umbria","Aosta Valley","Veneto"],
+    "Spain": ["Andalusia","Aragon","Asturias","Balearic Islands","Basque Country","Canary Islands","Cantabria","Castilla-La Mancha","Castile and León","Catalonia","Extremadura","Galicia","La Rioja","Community of Madrid","Murcia","Navarra","Valencia"],
+    "Colombia": ["Amazonas","Antioquia","Arauca","Atlántico","Bolívar","Boyacá","Caldas","Caquetá","Casanare","Cauca","Cesar","Chocó","Córdoba","Cundinamarca","Guainía","Guaviare","Huila","La Guajira","Magdalena","Meta","Nariño","Norte de Santander","Putumayo","Quindío","Risaralda","Santander","Sucre","Tolima","Valle del Cauca","Vaupés","Vichada"],
+    "Chile": ["Arica and Parinacota","Tarapacá","Antofagasta","Atacama","Coquimbo","Valparaíso","Metropolitan","O'Higgins","Maule","Ñuble","Biobío","La Araucanía","Los Ríos","Los Lagos","Aysén","Magallanes"],
+    "Peru": ["Amazonas","Áncash","Apurímac","Arequipa","Ayacucho","Cajamarca","Callao","Cusco","Huancavelica","Huánuco","Ica","Junín","La Libertad","Lambayeque","Lima","Loreto","Madre de Dios","Moquegua","Pasco","Piura","Puno","San Martín","Tacna","Tumbes","Ucayali"],
+    "Kenya": ["Baringo","Bomet","Bungoma","Busia","Elgeyo-Marakwet","Embu","Garissa","Homa Bay","Isiolo","Kajiado","Kakamega","Kericho","Kiambu","Kilifi","Kirinyaga","Kisii","Kisumu","Kitui","Kwale","Laikipia","Lamu","Machakos","Makueni","Mandera","Marsabit","Meru","Migori","Mombasa","Murang'a","Nairobi","Nakuru","Nandi","Narok","Nyamira","Nyandarua","Nyeri","Samburu","Siaya","Taita-Taveta","Tana River","Tharaka-Nithi","Trans Nzoia","Turkana","Uasin Gishu","Vihiga","Wajir","West Pokot"],
+    "Ghana": ["Ahafo","Ashanti","Bono","Bono East","Central","Eastern","Greater Accra","North East","Northern","Oti","Savannah","Upper East","Upper West","Volta","Western","Western North"],
+    "Afghanistan": ["Badakhshan","Badghis","Baghlan","Balkh","Bamyan","Daykundi","Farah","Faryab","Ghazni","Ghor","Helmand","Herat","Jowzjan","Kabul","Kandahar","Kapisa","Khost","Kunar","Kunduz","Laghman","Logar","Maidan Wardak","Nangarhar","Nimroz","Nuristan","Paktia","Paktika","Panjshir","Parwan","Samangan","Sar-e Pol","Takhar","Urozgan","Zabul"],
+    "Sweden": ["Blekinge","Dalarna","Gävleborg","Gotland","Halland","Jämtland","Jönköping","Kalmar","Kronoberg","Norrbotten","Örebro","Östergötland","Skåne","Södermanland","Stockholm","Uppsala","Värmland","Västerbotten","Västernorrland","Västmanland","Västra Götaland"],
+    "Norway": ["Agder","Innlandet","Møre og Romsdal","Nordland","Oslo","Rogaland","Troms og Finnmark","Trøndelag","Vestfold og Telemark","Vestland","Viken"],
+    "Denmark": ["Capital","Central Jutland","North Jutland","Region Zealand","Southern Denmark"],
+    "Finland": ["Lapland","North Ostrobothnia","Kainuu","North Karelia","Northern Savo","South Savo","South Karelia","Central Finland","South Ostrobothnia","Ostrobothnia","Central Ostrobothnia","Pirkanmaa","Satakunta","Päijät-Häme","Kanta-Häme","Uusimaa","Southwest Finland","Kymenlaakso","Åland Islands"],
+    "Poland": ["Greater Poland","Kuyavian-Pomeranian","Lesser Poland","Łódź","Lower Silesian","Lublin","Lubusz","Masovian","Opole","Podkarpackie","Podlaskie","Pomeranian","Silesian","Świętokrzyskie","Warmian-Masurian","West Pomeranian"],
+    "Ukraine": ["Cherkasy","Chernihiv","Chernivtsi","Dnipropetrovsk","Donetsk","Ivano-Frankivsk","Kharkiv","Kherson","Khmelnytskyi","Kyiv","Kirovohrad","Luhansk","Lviv","Mykolaiv","Odessa","Poltava","Rivne","Sumy","Ternopil","Vinnytsia","Volyn","Zakarpattia","Zaporizhzhia","Zhytomyr"],
+    "Belgium": ["Antwerp","East Flanders","West Flanders","Flemish Brabant","Walloon Brabant","Hainaut","Liège","Luxembourg","Namur","Brussels"],
+    "Switzerland": ["Aargau","Appenzell Ausserrhoden","Appenzell Innerrhoden","Basel-Landschaft","Basel-Stadt","Bern","Fribourg","Geneva","Glarus","Graubünden","Jura","Lucerne","Neuchâtel","Nidwalden","Obwalden","Schaffhausen","Schwyz","Solothurn","St. Gallen","Thurgau","Ticino","Uri","Valais","Vaud","Zug","Zürich"],
+    "Austria": ["Burgenland","Carinthia","Lower Austria","Upper Austria","Salzburg","Styria","Tyrol","Vorarlberg","Vienna"],
+    "Portugal": ["Aveiro","Beja","Braga","Bragança","Castelo Branco","Coimbra","Évora","Faro","Guarda","Leiria","Lisbon","Portalegre","Porto","Santarém","Setúbal","Viana do Castelo","Vila Real","Viseu","Azores","Madeira"],
+    "Greece": ["Attica","Central Greece","Central Macedonia","Crete","Eastern Macedonia and Thrace","Epirus","Ionian Islands","North Aegean","Peloponnese","South Aegean","Thessaly","Western Greece","Western Macedonia"],
+    "Czech Republic": ["Bohemia","Moravia","Silesia","Prague","Central Bohemian","South Bohemian","Plzeň","Karlovy Vary","Ústí nad Labem","Liberec","Hradec Králové","Pardubice","Olomouc","Moravian-Silesian","South Moravian","Zlín","Vysočina"],
+    "Hungary": ["Bács-Kiskun","Baranya","Békés","Borsod-Abaúj-Zemplén","Budapest","Csongrád-Csanád","Fejér","Győr-Moson-Sopron","Hajdú-Bihar","Heves","Jász-Nagykun-Szolnok","Komárom-Esztergom","Nógrád","Pest","Somogy","Szabolcs-Szatmár-Bereg","Tolna","Vas","Veszprém","Zala"],
+    "Romania": ["Alba","Arad","Argeș","Bacău","Bihor","Bistrița-Năsăud","Botoșani","Brașov","Brăila","București","Buzău","Caraș-Severin","Călărași","Cluj","Constanța","Covasna","Dâmbovița","Dolj","Galați","Giurgiu","Gorj","Harghita","Hunedoara","Ialomița","Iași","Ilfov","Maramureș","Mehedinți","Mureș","Neamț","Olt","Prahova","Satu Mare","Sălaj","Sibiu","Suceava","Teleorman","Timiș","Tulcea","Vaslui","Vâlcea","Vrancea"],
+    "Israel": ["Central","Haifa","Jerusalem","Northern","Southern","Tel Aviv"],
+    "Lebanon": ["Akkar","Baalbek-Hermel","Beirut","Bekaa","Mount Lebanon","Nabatieh","North","South"],
+    "Qatar": ["Ad Dawhah","Al Khor","Al Rayyan","Al Wakrah","Al Shamal","Al Daayen","Madinat ash Shamal","Al Sheehaniya"],
+    "Kuwait": ["Al Ahmadi","Al Asimah","Al Farwaniyah","Al Jahra","Hawalli","Mubarak Al-Kabeer"],
+    "Oman": ["Muscat","Dhofar","Musandam","Al Buraymi","Ad Dakhiliyah","Al Batinah North","Al Batinah South","Ash Sharqiyah North","Ash Sharqiyah South","Al Wusta","Az Zahirah"],
+    "Bahrain": ["Capital","Central","Muharraq","Northern","Southern"],
+    "Algeria": ["Adrar","Chlef","Laghouat","Oum El Bouaghi","Batna","Béjaïa","Biskra","Béchar","Blida","Bouira","Tamanrasset","Tébessa","Tlemcen","Tiaret","Tizi Ouzou","Algiers","Djelfa","Jijel","Sétif","Saïda","Skikda","Sidi Bel Abbès","Annaba","Guelma","Constantine","Médéa","Mostaganem","M'Sila","Mascara","Ouargla","Oran","El Bayadh","Illizi","Bordj Bou Arréridj","Boumerdès","El Tarf","Tindouf","Tissemsilt","El Oued","Khenchela","Souk Ahras","Tipaza","Mila","Aïn Defla","Naâma","Aïn Témouchent","Ghardaïa","Relizane"],
+    "Tunisia": ["Ariana","Béja","Ben Arous","Bizerte","Gabès","Gafsa","Jendouba","Kairouan","Kasserine","Kebili","Kef","Mahdia","Manouba","Medenine","Monastir","Nabeul","Sfax","Sidi Bouzid","Siliana","Sousse","Tataouine","Tozeur","Tunis","Zaghouan"],
+    "Sudan": ["Al Jazirah","Al Qadarif","Blue Nile","Central Darfur","East Darfur","Kassala","Khartoum","North Darfur","North Kordofan","Northern","Red Sea","River Nile","Sennar","South Darfur","South Kordofan","West Darfur","West Kordofan","White Nile"],
+    "Ethiopia": ["Addis Ababa","Afar","Amhara","Benishangul-Gumuz","Dire Dawa","Gambela","Harar","Oromia","Sidama","Somali","South Ethiopia","Southwest Ethiopia","Tigray"],
+    "Tanzania": ["Arusha","Dar es Salaam","Dodoma","Geita","Iringa","Kagera","Katavi","Kigoma","Kilimanjaro","Lindi","Manyara","Mara","Mbeya","Mjini Magharibi","Morogoro","Mtwara","Mwanza","Njombe","Pemba North","Pemba South","Pwani","Rukwa","Ruvuma","Shinyanga","Simiyu","Singida","Songwe","Tabora","Tanga","Zanzibar North","Zanzibar South","Zanzibar West"],
+    "Uganda": ["Kampala","Wakiso","Mukono","Jinja","Mbarara","Gulu","Lira","Mbale","Masaka","Kasese"],
+    "Venezuela": ["Amazonas","Anzoátegui","Apure","Aragua","Barinas","Bolívar","Carabobo","Cojedes","Delta Amacuro","Falcón","Guárico","La Guaira","Lara","Mérida","Miranda","Monagas","Nueva Esparta","Portuguesa","Sucre","Táchira","Trujillo","Yaracuy","Zulia","Distrito Capital"],
+    "Ireland": ["Carlow","Cavan","Clare","Cork","Donegal","Dublin","Galway","Kerry","Kildare","Kilkenny","Laois","Leitrim","Limerick","Longford","Louth","Mayo","Meath","Monaghan","Offaly","Roscommon","Sligo","Tipperary","Waterford","Westmeath","Wexford","Wicklow"],
+    "Luxembourg": ["Canton Capellen","Canton Clervaux","Canton Diekirch","Canton Echternach","Canton Esch-sur-Alzette","Canton Grevenmacher","Canton Luxembourg","Canton Mersch","Canton Redange","Canton Remich","Canton Vianden","Canton Wiltz"],
+    "Lithuania": ["Alytus","Kaunas","Klaipėda","Marijampolė","Panevėžys","Šiauliai","Tauragė","Telšiai","Utena","Vilnius"],
+    "Latvia": ["Ādaži","Aizkraukle","Alūksne","Augšdaugava","Bauska","Cēsis","Dienvidkurzeme","Dobele","Gulbene","Jelgava","Jēkabpils","Jūrmala","Krāslava","Kuldīga","Ķekava","Limbaži","Līvāni","Ludza","Madona","Mārupe","Ogre","Olaine","Preiļi","Rēzekne","Riga","Ropaži","Salaspils","Saldus","Saulkrasti","Sigulda","Smiltene","Talsi","Tukums","Valmiera","Varakļāni","Ventspils"],
+    "Estonia": ["Harju","Hiiu","Ida-Viru","Järva","Jõgeva","Lääne","Lääne-Viru","Põlva","Pärnu","Rapla","Saare","Tartu","Valga","Viljandi","Võru"],
+    "Croatia": ["Bjelovar-Bilogora","Brod-Posavina","Dubrovnik-Neretva","Istria","Karlovac","Koprivnica-Križevci","Krapina-Zagorje","Lika-Senj","Međimurje","Osijek-Baranja","Požega-Slavonia","Primorje-Gorski Kotar","Šibenik-Knin","Sisak-Moslavina","Split-Dalmatia","Varaždin","Virovitica-Podravina","Vukovar-Syrmia","Zadar","Zagreb City","Zagreb County"],
+    "Serbia": ["Belgrade","Bor","Braničevo","Jablanica","Kolubara","Mačva","Moravica","Nišava","Pčinja","Pirot","Podunavlje","Pomoravlje","Rasina","Raška","Šumadija","Toplica","Vojvodina","Zaječar","Zlatibor"],
+    "Bulgaria": ["Blagoevgrad","Burgas","Dobrich","Gabrovo","Haskovo","Kardzhali","Kyustendil","Lovech","Montana","Pazardzhik","Pernik","Pleven","Plovdiv","Razgrad","Ruse","Shumen","Silistra","Sliven","Smolyan","Sofia City","Sofia Province","Stara Zagora","Targovishte","Varna","Veliko Tarnovo","Vidin","Vratsa","Yambol"],
+    "Slovakia": ["Banská Bystrica","Bratislava","Košice","Nitra","Prešov","Trenčín","Trnava","Žilina"],
+    "Bosnia": ["Federation of Bosnia and Herzegovina","Republika Srpska","Brčko District"],
+    "Slovenia": ["Ajdovščina","Beltinci","Bled","Bohinj","Celje","Črenšovci","Domžale","Jesenice","Kamnik","Koper","Kranj","Krško","Ljubljana","Maribor","Murska Sobota","Nova Gorica","Novo Mesto","Piran","Ptuj","Slovenj Gradec","Velenje"],
+    "Yemen": ["Aden","Al Bayda","Al Hudaydah","Al Jawf","Al Mahrah","Al Mahwit","Amanat Al Asimah","Amran","Dhamar","Hadhramaut","Hajjah","Ibb","Lahij","Ma'rib","Raymah","Sa'dah","Sana'a","Shabwah","Socotra","Ta'izz"],
+    "Qatar": ["Ad Dawhah","Al Khor","Al Rayyan","Al Wakrah","Al Shamal","Al Daayen","Madinat ash Shamal","Al Sheehaniya"]
+  };
+
+  function updateStates() {
+    const country = document.getElementById('country').value;
+    const stateEl = document.getElementById('state');
+    const states  = COUNTRY_STATES[country] || [];
+    stateEl.innerHTML = '<option value="">Select State / Province</option>';
+    if (states.length) {
+      states.forEach(s => {
+        const o = document.createElement('option');
+        o.value = s; o.textContent = s;
+        stateEl.appendChild(o);
+      });
+      stateEl.disabled = false;
+    } else {
+      const o = document.createElement('option');
+      o.value = ''; o.textContent = '— Enter manually below —';
+      stateEl.appendChild(o);
+      // If no states defined, convert back to text-like experience
+      stateEl.disabled = true;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const countryEl = document.getElementById('country');
+    countryEl.addEventListener('change', updateStates);
+    updateStates(); // run on load for default selected country
+  });
+  </script>
+  <script src="script.js"></script>
+</body>
+
+</html>

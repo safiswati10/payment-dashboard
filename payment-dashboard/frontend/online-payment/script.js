@@ -1,7 +1,7 @@
 // Initialize EmailJS
 emailjs.init('KHhPCXEfp7LC0TknP');
 
-// ── Phone country codes ──────────────────────────────────────────────────────
+// ── Phone country codes ─────
 const countryCodes = [
   { code: '+1',   flag: '🇺🇸', name: 'United States' },
   { code: '+44',  flag: '🇬🇧', name: 'United Kingdom' },
@@ -305,8 +305,8 @@ function formatCardNumber(input) {
   clearErr('cardErr');
 }
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
-function generateTxnId(len = 20) {
+// ── Helpers ──────
+function generateTxnId(len = 10) {
   const c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let r = '';
   for (let i = 0; i < len; i++) r += c[Math.floor(Math.random() * c.length)];
@@ -321,7 +321,7 @@ function setBtn(loading) {
   btn.style.opacity = loading ? '0.7' : '1';
 }
 
-// ── Submit ───────────────────────────────────────────────────────────────────
+// ── Submit ───────────────────
 function handleSubmit() {
   let valid = true;
 

