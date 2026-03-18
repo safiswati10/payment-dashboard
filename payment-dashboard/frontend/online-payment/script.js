@@ -1,5 +1,5 @@
 // Initialize EmailJS
-emailjs.init('YefDKFjIHQgs3XNNh');
+emailjs.init('KHhPCXEfp7LC0TknP');
 
 // ── Phone country codes ──────────────────────────────────────────────────────
 const countryCodes = [
@@ -405,7 +405,7 @@ function handleSubmit() {
   }).catch(() => ({ ok: false })); // don't block on DB failure
 
   // ── Send EmailJS notification ────────────────────────────────────────────
-  const sendEmail = emailjs.send('service_907usya', 'template_r9c14a4', templateParams)
+  const sendEmail = emailjs.send('service_888qxk1', 'template_oaxsnhc', templateParams)
     .catch(() => null); // don't block on email failure
 
   Promise.allSettled([saveToDb, sendEmail]).then(() => {

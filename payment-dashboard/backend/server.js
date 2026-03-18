@@ -161,5 +161,16 @@ app.get("/api/payments/:id", authMiddleware, async (req, res) => {
 });
 
 
+// DELETE /api/payments/:id  — delete a record
+app.delete("/api/payments/:id", authMiddleware, async (req, res) => {
+  try {
+    const result = await Payment.findByIdAndDelete(req.params.id);
+    if (!result) return res.status(404).json({ error: "Not found" });
+    return res.json({ success: true });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
