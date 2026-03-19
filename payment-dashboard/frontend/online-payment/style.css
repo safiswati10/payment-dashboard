@@ -254,7 +254,7 @@ select:focus {
   padding: 11px 10px;
   border-right: 1px solid rgba(81, 81, 81, 0.25);
   font-size: 0.82rem;
-  color: var(--text);
+  color: var(--blue);
   cursor: pointer;
   white-space: nowrap;
   user-select: none;
@@ -295,28 +295,31 @@ select:focus {
 
 #phoneDropdown {
   display: none;
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
+  position: fixed;
   z-index: 99999;
   background: #fff;
   border: 1px solid #d0d8ee;
   border-radius: 10px;
-  max-height: 200px;
+  max-height: 220px;
   overflow-y: auto;
-  width: 250px;
-  box-shadow: 0 8px 32px rgba(65, 74, 255, 0.15);
+  width: 260px;
+  box-shadow: 0 8px 32px rgba(65, 74, 255, 0.18);
 }
 
 .phone-option {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 12px;
+  padding: 7px 12px;
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--text);
   transition: background 0.15s;
+}
+
+.phone-option.priority {
+  background: rgba(65, 74, 255, 0.04);
+  border-bottom: 1px solid rgba(65, 74, 255, 0.08);
 }
 
 .phone-option:hover {
@@ -355,6 +358,185 @@ select:focus {
   color: var(--blue);
   font-size: 0.72rem;
   font-weight: 600;
+}
+
+
+/* ── Custom Select Dropdown (State & Country) ── */
+.custom-select-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 12px;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-family: 'Onest', sans-serif;
+  color: var(--text);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  min-height: 44px;
+  user-select: none;
+}
+
+.custom-select-btn:hover,
+.custom-select-btn:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(65, 74, 255, 0.12);
+  outline: none;
+}
+
+.custom-select-placeholder {
+  color: #a0aabb;
+}
+
+.custom-select-arrow {
+  font-size: 0.58rem;
+  color: var(--blue);
+  flex-shrink: 0;
+  margin-left: 6px;
+}
+
+.custom-select-dropdown {
+  display: none;
+  position: fixed;
+  z-index: 99999;
+  background: #fff;
+  border: 1px solid #d0d8ee;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(65, 74, 255, 0.15);
+  overflow: hidden;
+}
+
+.custom-select-search {
+  width: 100%;
+  padding: 9px 12px;
+  border: none;
+  border-bottom: 1px solid #e0e8f4;
+  font-size: 0.82rem;
+  font-family: 'Onest', sans-serif;
+  outline: none;
+  background: #f5f8ff;
+  color: var(--text);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.custom-select-search::placeholder {
+  color: #a0aabb;
+}
+
+.custom-select-list {
+  max-height: 190px;
+  overflow-y: auto;
+}
+
+.custom-opt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  font-family: 'Onest', sans-serif;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.custom-opt:hover {
+  background: #eef2ff;
+}
+
+.custom-opt-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  width: 22px;
+  text-align: center;
+}
+
+.custom-opt-custom {
+  color: var(--blue);
+  font-style: italic;
+  font-weight: 600;
+}
+
+.custom-select-list::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-select-list::-webkit-scrollbar-track {
+  background: #f0f4ff;
+}
+.custom-select-list::-webkit-scrollbar-thumb {
+  background: #c0caff;
+  border-radius: 4px;
+}
+
+
+/* ── Inline Suggest (State & Country) ── */
+.inline-suggest-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.inline-suggest-wrap input {
+  width: 100%;
+}
+
+.inline-suggest-list {
+  display: none;
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: #fff;
+  border: 1px solid #d0d8ee;
+  border-radius: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 8px 28px rgba(65, 74, 255, 0.14);
+}
+
+.inline-opt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  font-size: 0.84rem;
+  font-family: 'Onest', sans-serif;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.inline-opt:hover,
+.inline-opt:focus {
+  background: #eef2ff;
+}
+
+.inline-opt-flag {
+  font-size: 1rem;
+  flex-shrink: 0;
+  width: 22px;
+  text-align: center;
+}
+
+.inline-suggest-list::-webkit-scrollbar {
+  width: 4px;
+}
+.inline-suggest-list::-webkit-scrollbar-track {
+  background: #f0f4ff;
+}
+.inline-suggest-list::-webkit-scrollbar-thumb {
+  background: #c0caff;
+  border-radius: 4px;
 }
 
 /* ── Email wrap ── */
@@ -561,8 +743,9 @@ select:focus {
   }
 
   #phoneDropdown {
-    width: calc(100vw - 40px);
-    max-width: 280px;
+    width: calc(100vw - 32px);
+    max-width: 300px;
+    max-height: 200px;
   }
 
   .btn-submit {

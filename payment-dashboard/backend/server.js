@@ -92,7 +92,7 @@ app.get("/api/payments", authMiddleware, async (req, res) => {
             { name: { $regex: search, $options: "i" } },
             { email: { $regex: search, $options: "i" } },
             { country: { $regex: search, $options: "i" } },
-            { amount: { $regex: search, $options: "i" } },
+            { state: { $regex: search, $options: "i" } },
           ],
         }
       : {};
