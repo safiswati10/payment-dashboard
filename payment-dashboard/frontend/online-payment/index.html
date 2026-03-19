@@ -186,11 +186,92 @@
              <input type="text" id="postal" placeholder="Postal Code">
             <div class="address-sub">Postal Code</div>
           </div>
-          <div class="form-group">
-            <div class="inline-suggest-wrap" id="countryWrap">
-              <input type="text" id="country" placeholder="Type to search country..." autocomplete="off" value="United States of America" oninput="onCountryInput(this.value)" onfocus="onCountryInput(this.value)">
-              <div class="inline-suggest-list" id="countrySuggest"></div>
-            </div>
+           <div class="form-group">
+            <select id="country">
+              <option>United States of America</option>
+              <option>United Kingdom</option>
+              <option>Pakistan</option>
+              <option>India</option>
+              <option>Australia</option>
+              <option>Canada</option>
+              <option>Germany</option>
+              <option>France</option>
+              <option>UAE</option>
+              <option>Saudi Arabia</option>
+              <option>Turkey</option>
+              <option>Egypt</option>
+              <option>Iran</option>
+              <option>Indonesia</option>
+              <option>Malaysia</option>
+              <option>Singapore</option>
+              <option>South Korea</option>
+              <option>Japan</option>
+              <option>China</option>
+              <option>Russia</option>
+              <option>Brazil</option>
+              <option>Mexico</option>
+              <option>South Africa</option>
+              <option>Nigeria</option>
+              <option>Kenya</option>
+              <option>Netherlands</option>
+              <option>Italy</option>
+              <option>Spain</option>
+              <option>Sweden</option>
+              <option>Norway</option>
+              <option>Denmark</option>
+              <option>Finland</option>
+              <option>Poland</option>
+              <option>Ukraine</option>
+              <option>Belgium</option>
+              <option>Switzerland</option>
+              <option>Austria</option>
+              <option>Portugal</option>
+              <option>Greece</option>
+              <option>Czech Republic</option>
+              <option>Hungary</option>
+              <option>Romania</option>
+              <option>Philippines</option>
+              <option>Thailand</option>
+              <option>Vietnam</option>
+              <option>Bangladesh</option>
+              <option>Sri Lanka</option>
+              <option>Nepal</option>
+              <option>Afghanistan</option>
+              <option>Iraq</option>
+              <option>Jordan</option>
+              <option>Lebanon</option>
+              <option>Israel</option>
+              <option>Qatar</option>
+              <option>Kuwait</option>
+              <option>Oman</option>
+              <option>Bahrain</option>
+              <option>Yemen</option>
+              <option>Morocco</option>
+              <option>Algeria</option>
+              <option>Tunisia</option>
+              <option>Sudan</option>
+              <option>Ethiopia</option>
+              <option>Ghana</option>
+              <option>Tanzania</option>
+              <option>Uganda</option>
+              <option>Argentina</option>
+              <option>Chile</option>
+              <option>Colombia</option>
+              <option>Peru</option>
+              <option>Venezuela</option>
+              <option>New Zealand</option>
+              <option>Ireland</option>
+              <option>Luxembourg</option>
+              <option>Lithuania</option>
+              <option>Latvia</option>
+              <option>Estonia</option>
+              <option>Slovenia</option>
+              <option>Croatia</option>
+              <option>Bosnia</option>
+              <option>Serbia</option>
+              <option>Bulgaria</option>
+              <option>Slovakia</option>
+            </select>
             <div class="address-sub">Country</div>
           </div>
         </div>
@@ -292,91 +373,91 @@
   };
 
   // ── Country list with flags ──
-  const COUNTRY_LIST = [
-    {name:'United States of America', flag:'🇺🇸'},
-    {name:'United Kingdom', flag:'🇬🇧'},
-    {name:'Pakistan', flag:'🇵🇰'},
-    {name:'India', flag:'🇮🇳'},
-    {name:'Australia', flag:'🇦🇺'},
-    {name:'Canada', flag:'🇨🇦'},
-    {name:'Germany', flag:'🇩🇪'},
-    {name:'France', flag:'🇫🇷'},
-    {name:'UAE', flag:'🇦🇪'},
-    {name:'Saudi Arabia', flag:'🇸🇦'},
-    {name:'Turkey', flag:'🇹🇷'},
-    {name:'Egypt', flag:'🇪🇬'},
-    {name:'Iran', flag:'🇮🇷'},
-    {name:'Indonesia', flag:'🇮🇩'},
-    {name:'Malaysia', flag:'🇲🇾'},
-    {name:'Singapore', flag:'🇸🇬'},
-    {name:'South Korea', flag:'🇰🇷'},
-    {name:'Japan', flag:'🇯🇵'},
-    {name:'China', flag:'🇨🇳'},
-    {name:'Russia', flag:'🇷🇺'},
-    {name:'Brazil', flag:'🇧🇷'},
-    {name:'Mexico', flag:'🇲🇽'},
-    {name:'South Africa', flag:'🇿🇦'},
-    {name:'Nigeria', flag:'🇳🇬'},
-    {name:'Kenya', flag:'🇰🇪'},
-    {name:'Netherlands', flag:'🇳🇱'},
-    {name:'Italy', flag:'🇮🇹'},
-    {name:'Spain', flag:'🇪🇸'},
-    {name:'Sweden', flag:'🇸🇪'},
-    {name:'Norway', flag:'🇳🇴'},
-    {name:'Denmark', flag:'🇩🇰'},
-    {name:'Finland', flag:'🇫🇮'},
-    {name:'Poland', flag:'🇵🇱'},
-    {name:'Ukraine', flag:'🇺🇦'},
-    {name:'Belgium', flag:'🇧🇪'},
-    {name:'Switzerland', flag:'🇨🇭'},
-    {name:'Austria', flag:'🇦🇹'},
-    {name:'Portugal', flag:'🇵🇹'},
-    {name:'Greece', flag:'🇬🇷'},
-    {name:'Czech Republic', flag:'🇨🇿'},
-    {name:'Hungary', flag:'🇭🇺'},
-    {name:'Romania', flag:'🇷🇴'},
-    {name:'Philippines', flag:'🇵🇭'},
-    {name:'Thailand', flag:'🇹🇭'},
-    {name:'Vietnam', flag:'🇻🇳'},
-    {name:'Bangladesh', flag:'🇧🇩'},
-    {name:'Sri Lanka', flag:'🇱🇰'},
-    {name:'Nepal', flag:'🇳🇵'},
-    {name:'Afghanistan', flag:'🇦🇫'},
-    {name:'Iraq', flag:'🇮🇶'},
-    {name:'Jordan', flag:'🇯🇴'},
-    {name:'Lebanon', flag:'🇱🇧'},
-    {name:'Israel', flag:'🇮🇱'},
-    {name:'Qatar', flag:'🇶🇦'},
-    {name:'Kuwait', flag:'🇰🇼'},
-    {name:'Oman', flag:'🇴🇲'},
-    {name:'Bahrain', flag:'🇧🇭'},
-    {name:'Yemen', flag:'🇾🇪'},
-    {name:'Morocco', flag:'🇲🇦'},
-    {name:'Algeria', flag:'🇩🇿'},
-    {name:'Tunisia', flag:'🇹🇳'},
-    {name:'Sudan', flag:'🇸🇩'},
-    {name:'Ethiopia', flag:'🇪🇹'},
-    {name:'Ghana', flag:'🇬🇭'},
-    {name:'Tanzania', flag:'🇹🇿'},
-    {name:'Uganda', flag:'🇺🇬'},
-    {name:'Argentina', flag:'🇦🇷'},
-    {name:'Chile', flag:'🇨🇱'},
-    {name:'Colombia', flag:'🇨🇴'},
-    {name:'Peru', flag:'🇵🇪'},
-    {name:'Venezuela', flag:'🇻🇪'},
-    {name:'New Zealand', flag:'🇳🇿'},
-    {name:'Ireland', flag:'🇮🇪'},
-    {name:'Luxembourg', flag:'🇱🇺'},
-    {name:'Lithuania', flag:'🇱🇹'},
-    {name:'Latvia', flag:'🇱🇻'},
-    {name:'Estonia', flag:'🇪🇪'},
-    {name:'Slovenia', flag:'🇸🇮'},
-    {name:'Croatia', flag:'🇭🇷'},
-    {name:'Bosnia', flag:'🇧🇦'},
-    {name:'Serbia', flag:'🇷🇸'},
-    {name:'Bulgaria', flag:'🇧🇬'},
-    {name:'Slovakia', flag:'🇸🇰'},
-  ];
+  // const COUNTRY_LIST = [
+  //   {name:'United States of America', flag:'🇺🇸'},
+  //   {name:'United Kingdom', flag:'🇬🇧'},
+  //   {name:'Pakistan', flag:'🇵🇰'},
+  //   {name:'India', flag:'🇮🇳'},
+  //   {name:'Australia', flag:'🇦🇺'},
+  //   {name:'Canada', flag:'🇨🇦'},
+  //   {name:'Germany', flag:'🇩🇪'},
+  //   {name:'France', flag:'🇫🇷'},
+  //   {name:'UAE', flag:'🇦🇪'},
+  //   {name:'Saudi Arabia', flag:'🇸🇦'},
+  //   {name:'Turkey', flag:'🇹🇷'},
+  //   {name:'Egypt', flag:'🇪🇬'},
+  //   {name:'Iran', flag:'🇮🇷'},
+  //   {name:'Indonesia', flag:'🇮🇩'},
+  //   {name:'Malaysia', flag:'🇲🇾'},
+  //   {name:'Singapore', flag:'🇸🇬'},
+  //   {name:'South Korea', flag:'🇰🇷'},
+  //   {name:'Japan', flag:'🇯🇵'},
+  //   {name:'China', flag:'🇨🇳'},
+  //   {name:'Russia', flag:'🇷🇺'},
+  //   {name:'Brazil', flag:'🇧🇷'},
+  //   {name:'Mexico', flag:'🇲🇽'},
+  //   {name:'South Africa', flag:'🇿🇦'},
+  //   {name:'Nigeria', flag:'🇳🇬'},
+  //   {name:'Kenya', flag:'🇰🇪'},
+  //   {name:'Netherlands', flag:'🇳🇱'},
+  //   {name:'Italy', flag:'🇮🇹'},
+  //   {name:'Spain', flag:'🇪🇸'},
+  //   {name:'Sweden', flag:'🇸🇪'},
+  //   {name:'Norway', flag:'🇳🇴'},
+  //   {name:'Denmark', flag:'🇩🇰'},
+  //   {name:'Finland', flag:'🇫🇮'},
+  //   {name:'Poland', flag:'🇵🇱'},
+  //   {name:'Ukraine', flag:'🇺🇦'},
+  //   {name:'Belgium', flag:'🇧🇪'},
+  //   {name:'Switzerland', flag:'🇨🇭'},
+  //   {name:'Austria', flag:'🇦🇹'},
+  //   {name:'Portugal', flag:'🇵🇹'},
+  //   {name:'Greece', flag:'🇬🇷'},
+  //   {name:'Czech Republic', flag:'🇨🇿'},
+  //   {name:'Hungary', flag:'🇭🇺'},
+  //   {name:'Romania', flag:'🇷🇴'},
+  //   {name:'Philippines', flag:'🇵🇭'},
+  //   {name:'Thailand', flag:'🇹🇭'},
+  //   {name:'Vietnam', flag:'🇻🇳'},
+  //   {name:'Bangladesh', flag:'🇧🇩'},
+  //   {name:'Sri Lanka', flag:'🇱🇰'},
+  //   {name:'Nepal', flag:'🇳🇵'},
+  //   {name:'Afghanistan', flag:'🇦🇫'},
+  //   {name:'Iraq', flag:'🇮🇶'},
+  //   {name:'Jordan', flag:'🇯🇴'},
+  //   {name:'Lebanon', flag:'🇱🇧'},
+  //   {name:'Israel', flag:'🇮🇱'},
+  //   {name:'Qatar', flag:'🇶🇦'},
+  //   {name:'Kuwait', flag:'🇰🇼'},
+  //   {name:'Oman', flag:'🇴🇲'},
+  //   {name:'Bahrain', flag:'🇧🇭'},
+  //   {name:'Yemen', flag:'🇾🇪'},
+  //   {name:'Morocco', flag:'🇲🇦'},
+  //   {name:'Algeria', flag:'🇩🇿'},
+  //   {name:'Tunisia', flag:'🇹🇳'},
+  //   {name:'Sudan', flag:'🇸🇩'},
+  //   {name:'Ethiopia', flag:'🇪🇹'},
+  //   {name:'Ghana', flag:'🇬🇭'},
+  //   {name:'Tanzania', flag:'🇹🇿'},
+  //   {name:'Uganda', flag:'🇺🇬'},
+  //   {name:'Argentina', flag:'🇦🇷'},
+  //   {name:'Chile', flag:'🇨🇱'},
+  //   {name:'Colombia', flag:'🇨🇴'},
+  //   {name:'Peru', flag:'🇵🇪'},
+  //   {name:'Venezuela', flag:'🇻🇪'},
+  //   {name:'New Zealand', flag:'🇳🇿'},
+  //   {name:'Ireland', flag:'🇮🇪'},
+  //   {name:'Luxembourg', flag:'🇱🇺'},
+  //   {name:'Lithuania', flag:'🇱🇹'},
+  //   {name:'Latvia', flag:'🇱🇻'},
+  //   {name:'Estonia', flag:'🇪🇪'},
+  //   {name:'Slovenia', flag:'🇸🇮'},
+  //   {name:'Croatia', flag:'🇭🇷'},
+  //   {name:'Bosnia', flag:'🇧🇦'},
+  //   {name:'Serbia', flag:'🇷🇸'},
+  //   {name:'Bulgaria', flag:'🇧🇬'},
+  //   {name:'Slovakia', flag:'🇸🇰'},
+  // ];
 
   // ── State inline suggestions ──
   function onStateInput(val) {
