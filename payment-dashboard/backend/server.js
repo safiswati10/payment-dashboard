@@ -40,8 +40,9 @@ const Payment = mongoose.model("Payment", paymentSchema);
 // ─── JWT Secret ─────
 const JWT_SECRET = "nextfiler_admin_secret_2024";
 
-// ─── Admin Credentials (hardcoded, change as needed) ────
-const ADMIN = { username: "admin", password: "admin123" };
+// ─── Admin Credentials (mutable — change password via API) ────
+let ADMIN = { username: "admin", password: "admin123" };
+const RESET_SECRET = "nextfiler_reset_2024"; // secret key for password reset
 
 // ─── Auth Middleware ──
 function authMiddleware(req, res, next) {
@@ -93,6 +94,7 @@ app.get("/api/payments", authMiddleware, async (req, res) => {
             { email: { $regex: search, $options: "i" } },
             { country: { $regex: search, $options: "i" } },
             { state: { $regex: search, $options: "i" } },
+            { amount: { $regex: search, $options: "i" } },
           ],
         }
       : {};
@@ -170,6 +172,32 @@ app.delete("/api/payments/:id", authMiddleware, async (req, res) => {
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
+});
+
+// POST /api/change-password  — change password (must be logged in)
+app.post("/api/change-password", authMiddleware, (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  if (!currentPassword || !newPassword)
+    return res.status(400).json({ error: "All fields required" });
+  if (currentPassword !== ADMIN.password)
+    return res.status(401).json({ error: "Current password is incorrect" });
+  if (newPassword.length < 6)
+    return res.status(400).json({ error: "New password must be at least 6 characters" });
+  ADMIN.password = newPassword;
+  return res.json({ success: true, message: "Password changed successfully" });
+});
+
+// POST /api/reset-password  — reset password using secret key (no login needed)
+app.post("/api/reset-password", (req, res) => {
+  const { secretKey, newPassword } = req.body;
+  if (!secretKey || !newPassword)
+    return res.status(400).json({ error: "All fields required" });
+  if (secretKey !== RESET_SECRET)
+    return res.status(401).json({ error: "Invalid secret key" });
+  if (newPassword.length < 6)
+    return res.status(400).json({ error: "Password must be at least 6 characters" });
+  ADMIN.password = newPassword;
+  return res.json({ success: true, message: "Password reset successfully" });
 });
 
 const PORT = process.env.PORT || 3001;

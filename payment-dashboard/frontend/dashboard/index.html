@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+  
     :root {
       --card-bg: #DEE9FD;
       --blue: #414AFF;
@@ -630,11 +631,9 @@
       background: rgba(65, 74, 255, 0.07);
       font-weight: 600;
     }
-
     tbody tr.unread td {
       position: relative;
     }
-
     tbody tr.unread td:first-child::before {
       content: '';
       display: inline-block;
@@ -658,11 +657,7 @@
       transition: background 0.15s;
       opacity: 0.7;
     }
-
-    .btn-delete:hover {
-      background: #fee2e2;
-      opacity: 1;
-    }
+    .btn-delete:hover { background: #fee2e2; opacity: 1; }
 
     /* ── Confirm popup overlay ── */
     .confirm-overlay {
@@ -675,53 +670,133 @@
       align-items: center;
       justify-content: center;
     }
-
-    .confirm-overlay.open {
-      display: flex;
-    }
-
+    .confirm-overlay.open { display: flex; }
     .confirm-box {
       background: var(--card-bg);
       border-radius: 16px;
       padding: 28px 28px 22px;
       max-width: 360px;
       width: 90%;
-      box-shadow: 0 20px 60px rgba(65, 74, 255, 0.18);
-      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 20px 60px rgba(65,74,255,0.18);
+      border: 1px solid rgba(255,255,255,0.6);
       text-align: center;
       animation: slideUp .2s ease;
     }
-
-    .confirm-icon {
-      font-size: 2rem;
-      margin-bottom: 12px;
+    .confirm-icon { font-size: 2rem; margin-bottom: 12px; }
+    .confirm-title { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .confirm-msg { font-size: 0.82rem; color: var(--muted); margin-bottom: 22px; line-height: 1.5; }
+    .confirm-btns { display: flex; gap: 10px; justify-content: center; }
+    .confirm-yes {
+      background: #dc2626; color: #fff; border: none;
+      padding: 10px 24px; border-radius: 8px;
+      font-size: 0.88rem; font-weight: 700;
+      font-family: 'Onest', sans-serif;
+      cursor: pointer; transition: background 0.2s;
     }
-
-    .confirm-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 8px;
+    .confirm-yes:hover { background: #b91c1c; }
+    .confirm-no {
+      background: var(--input-bg); color: var(--text);
+      border: 1px solid var(--border);
+      padding: 10px 24px; border-radius: 8px;
+      font-size: 0.88rem; font-weight: 600;
+      font-family: 'Onest', sans-serif;
+      cursor: pointer; transition: all 0.2s;
     }
+    .confirm-no:hover { border-color: var(--blue); color: var(--blue); }
 
-    .confirm-msg {
-      font-size: 0.82rem;
-      color: var(--muted);
-      margin-bottom: 22px;
-      line-height: 1.5;
-    }
-
-    .confirm-btns {
+    /* ── Forgot / Change password links ── */
+    .login-links {
       display: flex;
-      gap: 10px;
+      justify-content: center;
+      gap: 18px;
+      margin-top: 14px;
+    }
+    .login-link {
+      font-size: 0.8rem;
+      color: var(--blue);
+      cursor: pointer;
+      text-decoration: underline;
+      background: none;
+      border: none;
+      font-family: 'Onest', sans-serif;
+      padding: 0;
+    }
+    .login-link:hover { opacity: 0.75; }
+
+    /* ── Password Modal ── */
+    .pwd-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(20,20,60,0.45);
+      backdrop-filter: blur(4px);
+      z-index: 3000;
+      align-items: center;
       justify-content: center;
     }
-
-    .confirm-yes {
-      background: #dc2626;
+    .pwd-overlay.open { display: flex; }
+    .pwd-box {
+      background: var(--card-bg);
+      border-radius: 18px;
+      padding: 32px 28px 26px;
+      max-width: 380px;
+      width: 92%;
+      box-shadow: 0 20px 60px rgba(65,74,255,0.18);
+      border: 1px solid rgba(255,255,255,0.6);
+      animation: slideUp .2s ease;
+    }
+    .pwd-box h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .pwd-box p {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+    .pwd-box .field { margin-bottom: 14px; }
+    .pwd-box .field label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--label);
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .pwd-box .field input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--input-bg);
+      font-size: 0.88rem;
+      font-family: 'Onest', sans-serif;
+      color: var(--text);
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+    .pwd-box .field input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(65,74,255,0.1); }
+    .pwd-msg {
+      font-size: 0.8rem;
+      padding: 8px 12px;
+      border-radius: 7px;
+      margin-bottom: 14px;
+      display: none;
+    }
+    .pwd-msg.error { background: #fee2e2; color: #dc2626; display: block; }
+    .pwd-msg.success { background: #dcfce7; color: #16a34a; display: block; }
+    .pwd-box-btns { display: flex; gap: 10px; margin-top: 6px; }
+    .pwd-btn-submit {
+      flex: 1;
+      background: var(--blue);
       color: #fff;
       border: none;
-      padding: 10px 24px;
+      padding: 11px;
       border-radius: 8px;
       font-size: 0.88rem;
       font-weight: 700;
@@ -729,16 +804,13 @@
       cursor: pointer;
       transition: background 0.2s;
     }
-
-    .confirm-yes:hover {
-      background: #b91c1c;
-    }
-
-    .confirm-no {
+    .pwd-btn-submit:hover { background: var(--blue-hover); }
+    .pwd-btn-cancel {
+      flex: 1;
       background: var(--input-bg);
       color: var(--text);
       border: 1px solid var(--border);
-      padding: 10px 24px;
+      padding: 11px;
       border-radius: 8px;
       font-size: 0.88rem;
       font-weight: 600;
@@ -746,39 +818,32 @@
       cursor: pointer;
       transition: all 0.2s;
     }
+    .pwd-btn-cancel:hover { border-color: var(--blue); color: var(--blue); }
 
-    .confirm-no:hover {
-      border-color: var(--blue);
-      color: var(--blue);
+    /* ── Eye icon for password fields ── */
+    .pwd-input-wrap {
+      position: relative;
     }
-
-    .per-page-select {
-      background: var(--input-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--label);
-      padding: 9px 14px;
-      font-size: 0.82rem;
-      font-family: 'Onest', sans-serif;
-      font-weight: 600;
+    .pwd-input-wrap input {
+      width: 100%;
+      padding-right: 38px;
+      box-sizing: border-box;
+    }
+    .eye-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
       cursor: pointer;
-      transition: all 0.2s;
-      outline: none;
-      appearance: none;
-      -webkit-appearance: none;
-
-      /* same arrow style */
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23414AFF'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 10px center;
-      padding-right: 28px;
+      padding: 2px;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1;
+      transition: color 0.15s;
     }
-
-    .per-page-select:hover {
-      border-color: var(--blue);
-      color: var(--blue);
-      background: rgba(65, 74, 255, 0.07);
-    }
+    .eye-btn:hover { color: var(--blue); }
 
     /* ── Mobile */
     @media (max-width: 600px) {
@@ -847,6 +912,72 @@
       </div>
       <button class="btn-primary" onclick="doLogin()" id="loginBtn">Sign In</button>
       <div class="login-err" id="loginErr"></div>
+      <div class="login-links">
+        <button class="login-link" onclick="openChangePwd()">🔒 Change Password</button>
+        <button class="login-link" onclick="openForgotPwd()">🔑 Forgot Password</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CHANGE PASSWORD MODAL ── -->
+  <div class="pwd-overlay" id="changePwdOverlay">
+    <div class="pwd-box">
+      <h3>🔒 Change Password</h3>
+      <p>Enter your current password and set a new one.</p>
+      <div class="pwd-msg" id="changePwdMsg"></div>
+      <div class="field">
+        <label>Current Password</label>
+        <input type="password" id="changeCurrent" placeholder="Enter current password">
+      </div>
+      <div class="field">
+        <label>New Password</label>
+        <div class="pwd-input-wrap">
+          <input type="password" id="changeNew" placeholder="Min 6 characters">
+          <button class="eye-btn" type="button" onclick="toggleEye('changeNew', this)">👁</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Confirm New Password</label>
+        <div class="pwd-input-wrap">
+          <input type="password" id="changeConfirm" placeholder="Repeat new password">
+          <button class="eye-btn" type="button" onclick="toggleEye('changeConfirm', this)">👁</button>
+        </div>
+      </div>
+      <div class="pwd-box-btns">
+        <button class="pwd-btn-cancel" onclick="closeChangePwd()">Cancel</button>
+        <button class="pwd-btn-submit" onclick="doChangePwd()">Update Password</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FORGOT PASSWORD MODAL ── -->
+  <div class="pwd-overlay" id="forgotPwdOverlay">
+    <div class="pwd-box">
+      <h3>🔑 Forgot Password</h3>
+      <p>Enter the secret key to reset your password. Contact your developer if you don't have it.</p>
+      <div class="pwd-msg" id="forgotPwdMsg"></div>
+      <div class="field">
+        <label>Secret Key</label>
+        <input type="password" id="forgotSecret" placeholder="Enter secret key">
+      </div>
+      <div class="field">
+        <label>New Password</label>
+        <div class="pwd-input-wrap">
+          <input type="password" id="forgotNew" placeholder="Min 6 characters">
+          <button class="eye-btn" type="button" onclick="toggleEye('forgotNew', this)">👁</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Confirm New Password</label>
+        <div class="pwd-input-wrap">
+          <input type="password" id="forgotConfirm" placeholder="Repeat new password">
+          <button class="eye-btn" type="button" onclick="toggleEye('forgotConfirm', this)">👁</button>
+        </div>
+      </div>
+      <div class="pwd-box-btns">
+        <button class="pwd-btn-cancel" onclick="closeForgotPwd()">Cancel</button>
+        <button class="pwd-btn-submit" onclick="doForgotPwd()">Reset Password</button>
+      </div>
     </div>
   </div>
 
@@ -870,44 +1001,35 @@
           <div class="table-controls">
             <div class="search-wrap">
               <span class="search-icon">🔍</span>
-              <input type="text" id="searchInput" placeholder="Search name, email, TxnID, country, state…"
+              <input type="text" id="searchInput" placeholder="Search name, email, TxnID…"
                 oninput="onSearch(this.value)">
             </div>
             <button class="btn-refresh" onclick="refreshData()" id="refreshBtn">
               <span class="refresh-ico">↻</span> Refresh
             </button>
-            <div>
-              <select id="perPageSelect" class="per-page-select" onchange="onPerPageChange()">
-                <option value="50">50 Records</option>
-                <option value="100">100 Records</option>
-                <option value="150">150 Records</option>
-                <option value="200">200 Records</option>
-              </select>
-            </div>
           </div>
-
         </div>
 
         <div class="table-scroll">
           <table>
             <thead>
               <tr>
-
+                  
                 <th>#</th>
-                <th>Date</th>
+              <th>Date</th>
                 <th>Transaction ID</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Card</th>
                 <th>Amount</th>
                 <th>Country</th>
-
+                
                 <th>Status</th>
                 <th>Delete</th>
             </thead>
             <tbody id="tableBody">
               <tr>
-                <td colspan="10" class="table-loading">
+                <td colspan="9" class="table-loading">
                   <div class="spinner"></div>Loading…
                 </td>
               </tr>
@@ -939,8 +1061,7 @@
     <div class="confirm-box">
       <div class="confirm-icon">🗑️</div>
       <div class="confirm-title">Delete Record?</div>
-      <div class="confirm-msg">This action will permanently remove this record. This cannot be undone. Do you want to
-        proceed?</div>
+      <div class="confirm-msg">This action will permanently remove this record. This cannot be undone. Do you want to proceed?</div>
       <div class="confirm-btns">
         <button class="confirm-no" onclick="closeConfirm()">No, Cancel</button>
         <button class="confirm-yes" id="confirmYesBtn">Yes, Delete</button>
@@ -954,7 +1075,6 @@
     let currentPage = 1;
     let searchQuery = '';
     let searchTimer;
-    let perPage = 20;
 
     async function doLogin() {
       const u = document.getElementById('loginUser').value.trim();
@@ -1005,7 +1125,7 @@
       const tbody = document.getElementById('tableBody');
       tbody.innerHTML = '<tr><td colspan="10" class="table-loading"><div class="spinner"></div>Loading…</td></tr>';
       try {
-        const params = new URLSearchParams({ page, limit: perPage, search: searchQuery });
+        const params = new URLSearchParams({ page, limit: 100, search: searchQuery });
         const r = await fetch(`${API}/api/payments?${params}`, { headers: { Authorization: `Bearer ${token}` } });
         if (!r.ok) throw new Error();
         const { payments, total, pages } = await r.json();
@@ -1023,7 +1143,7 @@
           const isUnread = !readIds.has(p._id);
           return `
         <tr onclick="openModal('${p._id}')" data-id="${p._id}" class="${isUnread ? 'unread' : ''}">
-          <td style="color:var(--muted);font-size:.8rem">${(page - 1) * perPage + i + 1}</td>
+          <td style="color:var(--muted);font-size:.8rem">${(page - 1) * 100 + i + 1}</td>
           <td style="color:var(--muted);font-size:.8rem">${date}<br><small>${time}</small></td>
           <td><span class="txn-id">${p.transaction_id?.substring(0, 8)}…</span></td>
           <td style="font-weight:600">${escHtml(p.name)}</td>
@@ -1043,7 +1163,7 @@
         const pg = document.getElementById('pagination');
         const info = document.getElementById('pageInfo');
         const btns = document.getElementById('pageBtns');
-        info.textContent = `${(page - 1) * perPage + 1}–${Math.min(page * perPage, total)} of ${total}`;
+        info.textContent = `${(page - 1) * 100 + 1}–${Math.min(page * 100, total)} of ${total}`;
         btns.innerHTML = '';
         const makeBtn = (label, p2, disabled, active) => {
           const b = document.createElement('button');
@@ -1057,7 +1177,6 @@
         makeBtn('→', page + 1, page >= pages, false);
         pg.style.display = 'flex';
       } catch { doLogout(); }
-      // console.log("Per Page:", perPage);
     }
 
     function onSearch(val) {
@@ -1072,22 +1191,22 @@
       setTimeout(() => btn.classList.remove('spin'), 800);
     }
 
-    async function openModal(id) {
-      const overlay = document.getElementById('modalOverlay');
-      const body = document.getElementById('modalBody');
-      body.innerHTML = '<div style="text-align:center;padding:32px"><div class="spinner"></div></div>';
-      overlay.classList.add('open');
+   async function openModal(id) {
+  const overlay = document.getElementById('modalOverlay');
+  const body = document.getElementById('modalBody');
+  body.innerHTML = '<div style="text-align:center;padding:32px"><div class="spinner"></div></div>';
+  overlay.classList.add('open');
 
-      // Mark as read — remove unread highlight
-      markRead(id);
-      const row = document.querySelector(`tr[data-id="${id}"]`);
-      if (row) row.classList.remove('unread');
-      try {
-        const r = await fetch(`${API}/api/payments/${id}`, { headers: { Authorization: `Bearer ${token}` } });
-        const p = await r.json();
-        const date = new Date(p.created_at).toLocaleString();
+  // Mark as read — remove unread highlight
+  markRead(id);
+  const row = document.querySelector(`tr[data-id="${id}"]`);
+  if (row) row.classList.remove('unread');
+  try {
+    const r = await fetch(`${API}/api/payments/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+    const p = await r.json();
+    const date = new Date(p.created_at).toLocaleString();
 
-        const allDetails = `Transaction ID: ${p.transaction_id}
+    const allDetails = `Transaction ID: ${p.transaction_id}
 Name on Card: ${p.name}
 Amount: $${parseFloat(p.amount || 0).toFixed(2)}
 Card Number: ${p.card}
@@ -1098,7 +1217,7 @@ Phone: ${p.phone}
 Address: ${p.address1}${p.address2 ? ' / ' + p.address2 : ''}, ${p.city}, ${p.state} ${p.postal}, ${p.country}
 Submitted At: ${date}`;
 
-        body.innerHTML = `
+    body.innerHTML = `
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
         <h3 style="margin:0;font-size:1rem;font-weight:600"></h3>
         <button id="copyAllBtn" onclick="copyAll(this, \`${allDetails.replace(/`/g, '\\`')}\`)"
@@ -1128,27 +1247,27 @@ Submitted At: ${date}`;
           <div class="val">${date}</div>
         </div>
       </div>`;
-      } catch {
-        body.innerHTML = '<div style="color:var(--red);text-align:center;padding:24px">Failed to load details.</div>';
-      }
-    }
+  } catch {
+    body.innerHTML = '<div style="color:var(--red);text-align:center;padding:24px">Failed to load details.</div>';
+  }
+}
 
-    function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
 
-    function copyAll(btn, text) {
-      navigator.clipboard.writeText(text).then(() => {
-        btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
-        btn.style.background = '#dcfce7';
-        btn.style.color = '#16a34a';
-        btn.style.borderColor = '#bbf7d0';
-        setTimeout(() => {
-          btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy All`;
-          btn.style.background = '#f1f5f9';
-          btn.style.color = '#475569';
-          btn.style.borderColor = '#e2e8f0';
-        }, 2000);
-      });
-    }
+function copyAll(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+    btn.style.background = '#dcfce7';
+    btn.style.color = '#16a34a';
+    btn.style.borderColor = '#bbf7d0';
+    setTimeout(() => {
+      btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy All`;
+      btn.style.background = '#f1f5f9';
+      btn.style.color = '#475569';
+      btn.style.borderColor = '#e2e8f0';
+    }, 2000);
+  });
+}
 
     // ── Delete functions ─────────────────────────────────────────────────────
     let pendingDeleteId = null;
@@ -1190,12 +1309,92 @@ Submitted At: ${date}`;
       return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
 
+    // ── Change Password ──────────────────────────────────────
+    function openChangePwd() {
+      document.getElementById('changeCurrent').value = '';
+      document.getElementById('changeNew').value = '';
+      document.getElementById('changeConfirm').value = '';
+      setMsg('changePwdMsg', '', '');
+      document.getElementById('changePwdOverlay').classList.add('open');
+    }
+    function closeChangePwd() {
+      document.getElementById('changePwdOverlay').classList.remove('open');
+    }
+    async function doChangePwd() {
+      const current = document.getElementById('changeCurrent').value.trim();
+      const nw      = document.getElementById('changeNew').value.trim();
+      const confirm = document.getElementById('changeConfirm').value.trim();
+      if (!current || !nw || !confirm) return setMsg('changePwdMsg', 'All fields are required.', 'error');
+      if (nw.length < 6) return setMsg('changePwdMsg', 'New password must be at least 6 characters.', 'error');
+      if (nw !== confirm) return setMsg('changePwdMsg', 'Passwords do not match.', 'error');
+      try {
+        const r = await fetch(`${API}/api/change-password`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ currentPassword: current, newPassword: nw })
+        });
+        const d = await r.json();
+        if (!r.ok) return setMsg('changePwdMsg', d.error, 'error');
+        setMsg('changePwdMsg', '✅ Password changed successfully!', 'success');
+        setTimeout(closeChangePwd, 1800);
+      } catch { setMsg('changePwdMsg', 'Network error. Try again.', 'error'); }
+    }
+
+    // ── Forgot Password ───────────────────────────────────────
+    function openForgotPwd() {
+      document.getElementById('forgotSecret').value = '';
+      document.getElementById('forgotNew').value = '';
+      document.getElementById('forgotConfirm').value = '';
+      setMsg('forgotPwdMsg', '', '');
+      document.getElementById('forgotPwdOverlay').classList.add('open');
+    }
+    function closeForgotPwd() {
+      document.getElementById('forgotPwdOverlay').classList.remove('open');
+    }
+    async function doForgotPwd() {
+      const secret  = document.getElementById('forgotSecret').value.trim();
+      const nw      = document.getElementById('forgotNew').value.trim();
+      const confirm = document.getElementById('forgotConfirm').value.trim();
+      if (!secret || !nw || !confirm) return setMsg('forgotPwdMsg', 'All fields are required.', 'error');
+      if (nw.length < 6) return setMsg('forgotPwdMsg', 'Password must be at least 6 characters.', 'error');
+      if (nw !== confirm) return setMsg('forgotPwdMsg', 'Passwords do not match.', 'error');
+      try {
+        const r = await fetch(`${API}/api/reset-password`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ secretKey: secret, newPassword: nw })
+        });
+        const d = await r.json();
+        if (!r.ok) return setMsg('forgotPwdMsg', d.error, 'error');
+        setMsg('forgotPwdMsg', '✅ Password reset! You can now login.', 'success');
+        setTimeout(closeForgotPwd, 1800);
+      } catch { setMsg('forgotPwdMsg', 'Network error. Try again.', 'error'); }
+    }
+
+    function toggleEye(inputId, btn) {
+      const inp = document.getElementById(inputId);
+      if (inp.type === 'password') {
+        inp.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        inp.type = 'password';
+        btn.textContent = '👁';
+      }
+    }
+
+    function setMsg(id, text, type) {
+      const el = document.getElementById(id);
+      el.textContent = text;
+      el.className = 'pwd-msg' + (type ? ' ' + type : '');
+    }
+
+    // Close modals on ESC
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { closeChangePwd(); closeForgotPwd(); }
+    });
+
     if (token) { showDashboard(); }
     else { document.getElementById('loginScreen').style.display = 'flex'; }
-    function onPerPageChange() {
-      perPage = parseInt(document.getElementById('perPageSelect').value);
-      loadPayments(1);
-    }
   </script>
 </body>
 
