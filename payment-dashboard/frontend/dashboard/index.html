@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-  
+
     :root {
       --card-bg: #DEE9FD;
       --blue: #414AFF;
@@ -216,6 +216,23 @@
     .topbar-sub {
       font-size: 11px;
       color: var(--muted);
+    }
+
+    .btn-change-pwd {
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(65,74,255,0.3);
+      background: transparent;
+      color: var(--blue);
+      font-size: 0.8rem;
+      font-weight: 600;
+      font-family: 'Onest', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-change-pwd:hover {
+      background: rgba(65,74,255,0.08);
+      border-color: var(--blue);
     }
 
     .btn-logout {
@@ -913,8 +930,7 @@
       <button class="btn-primary" onclick="doLogin()" id="loginBtn">Sign In</button>
       <div class="login-err" id="loginErr"></div>
       <div class="login-links">
-        <button class="login-link" onclick="openChangePwd()">🔒 Change Password</button>
-        <button class="login-link" onclick="openForgotPwd()">🔑 Forgot Password</button>
+        <button class="login-link" onclick="openForgotPwd()"> Forgot Password</button>
       </div>
     </div>
   </div>
@@ -922,7 +938,7 @@
   <!-- ── CHANGE PASSWORD MODAL ── -->
   <div class="pwd-overlay" id="changePwdOverlay">
     <div class="pwd-box">
-      <h3>🔒 Change Password</h3>
+      <h3>Change Password</h3>
       <p>Enter your current password and set a new one.</p>
       <div class="pwd-msg" id="changePwdMsg"></div>
       <div class="field">
@@ -953,7 +969,7 @@
   <!-- ── FORGOT PASSWORD MODAL ── -->
   <div class="pwd-overlay" id="forgotPwdOverlay">
     <div class="pwd-box">
-      <h3>🔑 Forgot Password</h3>
+      <h3>Forgot Password</h3>
       <p>Enter the secret key to reset your password. Contact your developer if you don't have it.</p>
       <div class="pwd-msg" id="forgotPwdMsg"></div>
       <div class="field">
@@ -991,6 +1007,7 @@
           <div class="topbar-sub">Admin Panel</div>
         </div>
       </div>
+      <button class="btn-change-pwd" onclick="openChangePwd()" title="Change Password">🔒 Change Password</button>
       <button class="btn-logout" onclick="doLogout()">Sign Out</button>
     </nav>
 
@@ -1014,7 +1031,6 @@
           <table>
             <thead>
               <tr>
-                  
                 <th>#</th>
               <th>Date</th>
                 <th>Transaction ID</th>
@@ -1023,7 +1039,6 @@
                 <th>Card</th>
                 <th>Amount</th>
                 <th>Country</th>
-                
                 <th>Status</th>
                 <th>Delete</th>
             </thead>
@@ -1335,7 +1350,7 @@ function copyAll(btn, text) {
         });
         const d = await r.json();
         if (!r.ok) return setMsg('changePwdMsg', d.error, 'error');
-        setMsg('changePwdMsg', '✅ Password changed successfully!', 'success');
+        setMsg('changePwdMsg', 'Password changed successfully!', 'success');
         setTimeout(closeChangePwd, 1800);
       } catch { setMsg('changePwdMsg', 'Network error. Try again.', 'error'); }
     }
@@ -1366,7 +1381,7 @@ function copyAll(btn, text) {
         });
         const d = await r.json();
         if (!r.ok) return setMsg('forgotPwdMsg', d.error, 'error');
-        setMsg('forgotPwdMsg', '✅ Password reset! You can now login.', 'success');
+        setMsg('forgotPwdMsg', 'Password reset! You can now login.', 'success');
         setTimeout(closeForgotPwd, 1800);
       } catch { setMsg('forgotPwdMsg', 'Network error. Try again.', 'error'); }
     }
