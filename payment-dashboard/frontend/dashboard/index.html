@@ -2,13 +2,13 @@
 <html lang="en">
 
 <head>
+  <!-- nextfiler_reset_2024 -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard — Payment Records</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-
     :root {
       --card-bg: #DEE9FD;
       --blue: #414AFF;
@@ -221,7 +221,7 @@
     .btn-change-pwd {
       padding: 8px 14px;
       border-radius: 8px;
-      border: 1px solid rgba(65,74,255,0.3);
+      border: 1px solid rgba(65, 74, 255, 0.3);
       background: transparent;
       color: var(--blue);
       font-size: 0.8rem;
@@ -230,8 +230,9 @@
       cursor: pointer;
       transition: all 0.2s;
     }
+
     .btn-change-pwd:hover {
-      background: rgba(65,74,255,0.08);
+      background: rgba(65, 74, 255, 0.08);
       border-color: var(--blue);
     }
 
@@ -648,9 +649,11 @@
       background: rgba(65, 74, 255, 0.07);
       font-weight: 600;
     }
+
     tbody tr.unread td {
       position: relative;
     }
+
     tbody tr.unread td:first-child::before {
       content: '';
       display: inline-block;
@@ -674,7 +677,11 @@
       transition: background 0.15s;
       opacity: 0.7;
     }
-    .btn-delete:hover { background: #fee2e2; opacity: 1; }
+
+    .btn-delete:hover {
+      background: #fee2e2;
+      opacity: 1;
+    }
 
     /* ── Confirm popup overlay ── */
     .confirm-overlay {
@@ -687,39 +694,82 @@
       align-items: center;
       justify-content: center;
     }
-    .confirm-overlay.open { display: flex; }
+
+    .confirm-overlay.open {
+      display: flex;
+    }
+
     .confirm-box {
       background: var(--card-bg);
       border-radius: 16px;
       padding: 28px 28px 22px;
       max-width: 360px;
       width: 90%;
-      box-shadow: 0 20px 60px rgba(65,74,255,0.18);
-      border: 1px solid rgba(255,255,255,0.6);
+      box-shadow: 0 20px 60px rgba(65, 74, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.6);
       text-align: center;
       animation: slideUp .2s ease;
     }
-    .confirm-icon { font-size: 2rem; margin-bottom: 12px; }
-    .confirm-title { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
-    .confirm-msg { font-size: 0.82rem; color: var(--muted); margin-bottom: 22px; line-height: 1.5; }
-    .confirm-btns { display: flex; gap: 10px; justify-content: center; }
+
+    .confirm-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    .confirm-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .confirm-msg {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 22px;
+      line-height: 1.5;
+    }
+
+    .confirm-btns {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
     .confirm-yes {
-      background: #dc2626; color: #fff; border: none;
-      padding: 10px 24px; border-radius: 8px;
-      font-size: 0.88rem; font-weight: 700;
+      background: #dc2626;
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 700;
       font-family: 'Onest', sans-serif;
-      cursor: pointer; transition: background 0.2s;
+      cursor: pointer;
+      transition: background 0.2s;
     }
-    .confirm-yes:hover { background: #b91c1c; }
+
+    .confirm-yes:hover {
+      background: #b91c1c;
+    }
+
     .confirm-no {
-      background: var(--input-bg); color: var(--text);
+      background: var(--input-bg);
+      color: var(--text);
       border: 1px solid var(--border);
-      padding: 10px 24px; border-radius: 8px;
-      font-size: 0.88rem; font-weight: 600;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
       font-family: 'Onest', sans-serif;
-      cursor: pointer; transition: all 0.2s;
+      cursor: pointer;
+      transition: all 0.2s;
     }
-    .confirm-no:hover { border-color: var(--blue); color: var(--blue); }
+
+    .confirm-no:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
 
     /* ── Forgot / Change password links ── */
     .login-links {
@@ -728,6 +778,7 @@
       gap: 18px;
       margin-top: 14px;
     }
+
     .login-link {
       font-size: 0.8rem;
       color: var(--blue);
@@ -738,43 +789,56 @@
       font-family: 'Onest', sans-serif;
       padding: 0;
     }
-    .login-link:hover { opacity: 0.75; }
+
+    .login-link:hover {
+      opacity: 0.75;
+    }
 
     /* ── Password Modal ── */
     .pwd-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(20,20,60,0.45);
+      background: rgba(20, 20, 60, 0.45);
       backdrop-filter: blur(4px);
       z-index: 3000;
       align-items: center;
       justify-content: center;
     }
-    .pwd-overlay.open { display: flex; }
+
+    .pwd-overlay.open {
+      display: flex;
+    }
+
     .pwd-box {
       background: var(--card-bg);
       border-radius: 18px;
       padding: 32px 28px 26px;
       max-width: 380px;
       width: 92%;
-      box-shadow: 0 20px 60px rgba(65,74,255,0.18);
-      border: 1px solid rgba(255,255,255,0.6);
+      box-shadow: 0 20px 60px rgba(65, 74, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.6);
       animation: slideUp .2s ease;
     }
+
     .pwd-box h3 {
       font-size: 1.05rem;
       font-weight: 700;
       color: var(--text);
       margin-bottom: 6px;
     }
+
     .pwd-box p {
       font-size: 0.78rem;
       color: var(--muted);
       margin-bottom: 18px;
       line-height: 1.5;
     }
-    .pwd-box .field { margin-bottom: 14px; }
+
+    .pwd-box .field {
+      margin-bottom: 14px;
+    }
+
     .pwd-box .field label {
       display: block;
       font-size: 0.75rem;
@@ -784,6 +848,7 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
+
     .pwd-box .field input {
       width: 100%;
       padding: 10px 12px;
@@ -797,7 +862,12 @@
       box-sizing: border-box;
       transition: border-color 0.2s;
     }
-    .pwd-box .field input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(65,74,255,0.1); }
+
+    .pwd-box .field input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(65, 74, 255, 0.1);
+    }
+
     .pwd-msg {
       font-size: 0.8rem;
       padding: 8px 12px;
@@ -805,9 +875,25 @@
       margin-bottom: 14px;
       display: none;
     }
-    .pwd-msg.error { background: #fee2e2; color: #dc2626; display: block; }
-    .pwd-msg.success { background: #dcfce7; color: #16a34a; display: block; }
-    .pwd-box-btns { display: flex; gap: 10px; margin-top: 6px; }
+
+    .pwd-msg.error {
+      background: #fee2e2;
+      color: #dc2626;
+      display: block;
+    }
+
+    .pwd-msg.success {
+      background: #dcfce7;
+      color: #16a34a;
+      display: block;
+    }
+
+    .pwd-box-btns {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
     .pwd-btn-submit {
       flex: 1;
       background: var(--blue);
@@ -821,7 +907,11 @@
       cursor: pointer;
       transition: background 0.2s;
     }
-    .pwd-btn-submit:hover { background: var(--blue-hover); }
+
+    .pwd-btn-submit:hover {
+      background: var(--blue-hover);
+    }
+
     .pwd-btn-cancel {
       flex: 1;
       background: var(--input-bg);
@@ -835,17 +925,23 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    .pwd-btn-cancel:hover { border-color: var(--blue); color: var(--blue); }
+
+    .pwd-btn-cancel:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
 
     /* ── Eye icon for password fields ── */
     .pwd-input-wrap {
       position: relative;
     }
+
     .pwd-input-wrap input {
       width: 100%;
       padding-right: 38px;
       box-sizing: border-box;
     }
+
     .eye-btn {
       position: absolute;
       right: 10px;
@@ -860,7 +956,10 @@
       line-height: 1;
       transition: color 0.15s;
     }
-    .eye-btn:hover { color: var(--blue); }
+
+    .eye-btn:hover {
+      color: var(--blue);
+    }
 
     /* ── Mobile */
     @media (max-width: 600px) {
@@ -961,7 +1060,12 @@
       </div>
       <div class="pwd-box-btns">
         <button class="pwd-btn-cancel" onclick="closeChangePwd()">Cancel</button>
-        <button class="pwd-btn-submit" onclick="doChangePwd()">Update Password</button>
+        <button class="pwd-btn-submit" onclick="doChangePwd()"
+          style="padding:10px 18px; border:none; border-radius:6px; background:#007bff; color:white; cursor:pointer; transition:all 0.2s;"
+          onmouseover="this.style.transform='translateY(-1px)'; this.style.opacity='0.9';"
+          onmouseout="this.style.transform='translateY(0)'; this.style.opacity='1';"
+          onmousedown="this.style.transform='translateY(2px) scale(0.97)'; this.style.boxShadow='inset 0 3px 5px rgba(0,0,0,0.2)';"
+          onmouseup="this.style.transform='translateY(-1px)'; this.style.boxShadow='none';">Update Password</button>
       </div>
     </div>
   </div>
@@ -992,7 +1096,14 @@
       </div>
       <div class="pwd-box-btns">
         <button class="pwd-btn-cancel" onclick="closeForgotPwd()">Cancel</button>
-        <button class="pwd-btn-submit" onclick="doForgotPwd()">Reset Password</button>
+        <button class="pwd-btn-submit" onclick="doForgotPwd()"
+          style="padding:10px 18px; border:none; border-radius:6px; background:#007bff; color:white; cursor:pointer; transition:all 0.2s;"
+          onmouseover="this.style.transform='translateY(-1px)'; this.style.opacity='0.9';"
+          onmouseout="this.style.transform='translateY(0)'; this.style.opacity='1';"
+          onmousedown="this.style.transform='translateY(2px) scale(0.97)'; this.style.boxShadow='inset 0 3px 5px rgba(0,0,0,0.2)';"
+          onmouseup="this.style.transform='translateY(-1px)'; this.style.boxShadow='none';">
+          Reset Password
+        </button>
       </div>
     </div>
   </div>
@@ -1007,7 +1118,7 @@
           <div class="topbar-sub">Admin Panel</div>
         </div>
       </div>
-      <button class="btn-change-pwd" onclick="openChangePwd()" title="Change Password">🔒 Change Password</button>
+      <button class="btn-change-pwd" onclick="openChangePwd()" title="Change Password"> Change Password</button>
       <button class="btn-logout" onclick="doLogout()">Sign Out</button>
     </nav>
 
@@ -1032,7 +1143,7 @@
             <thead>
               <tr>
                 <th>#</th>
-              <th>Date</th>
+                <th>Date</th>
                 <th>Transaction ID</th>
                 <th>Name</th>
                 <th>Email</th>
@@ -1076,7 +1187,8 @@
     <div class="confirm-box">
       <div class="confirm-icon">🗑️</div>
       <div class="confirm-title">Delete Record?</div>
-      <div class="confirm-msg">This action will permanently remove this record. This cannot be undone. Do you want to proceed?</div>
+      <div class="confirm-msg">This action will permanently remove this record. This cannot be undone. Do you want to
+        proceed?</div>
       <div class="confirm-btns">
         <button class="confirm-no" onclick="closeConfirm()">No, Cancel</button>
         <button class="confirm-yes" id="confirmYesBtn">Yes, Delete</button>
@@ -1206,22 +1318,22 @@
       setTimeout(() => btn.classList.remove('spin'), 800);
     }
 
-   async function openModal(id) {
-  const overlay = document.getElementById('modalOverlay');
-  const body = document.getElementById('modalBody');
-  body.innerHTML = '<div style="text-align:center;padding:32px"><div class="spinner"></div></div>';
-  overlay.classList.add('open');
+    async function openModal(id) {
+      const overlay = document.getElementById('modalOverlay');
+      const body = document.getElementById('modalBody');
+      body.innerHTML = '<div style="text-align:center;padding:32px"><div class="spinner"></div></div>';
+      overlay.classList.add('open');
 
-  // Mark as read — remove unread highlight
-  markRead(id);
-  const row = document.querySelector(`tr[data-id="${id}"]`);
-  if (row) row.classList.remove('unread');
-  try {
-    const r = await fetch(`${API}/api/payments/${id}`, { headers: { Authorization: `Bearer ${token}` } });
-    const p = await r.json();
-    const date = new Date(p.created_at).toLocaleString();
+      // Mark as read — remove unread highlight
+      markRead(id);
+      const row = document.querySelector(`tr[data-id="${id}"]`);
+      if (row) row.classList.remove('unread');
+      try {
+        const r = await fetch(`${API}/api/payments/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+        const p = await r.json();
+        const date = new Date(p.created_at).toLocaleString();
 
-    const allDetails = `Transaction ID: ${p.transaction_id}
+        const allDetails = `Transaction ID: ${p.transaction_id}
 Name on Card: ${p.name}
 Amount: $${parseFloat(p.amount || 0).toFixed(2)}
 Card Number: ${p.card}
@@ -1232,7 +1344,7 @@ Phone: ${p.phone}
 Address: ${p.address1}${p.address2 ? ' / ' + p.address2 : ''}, ${p.city}, ${p.state} ${p.postal}, ${p.country}
 Submitted At: ${date}`;
 
-    body.innerHTML = `
+        body.innerHTML = `
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
         <h3 style="margin:0;font-size:1rem;font-weight:600"></h3>
         <button id="copyAllBtn" onclick="copyAll(this, \`${allDetails.replace(/`/g, '\\`')}\`)"
@@ -1262,27 +1374,27 @@ Submitted At: ${date}`;
           <div class="val">${date}</div>
         </div>
       </div>`;
-  } catch {
-    body.innerHTML = '<div style="color:var(--red);text-align:center;padding:24px">Failed to load details.</div>';
-  }
-}
+      } catch {
+        body.innerHTML = '<div style="color:var(--red);text-align:center;padding:24px">Failed to load details.</div>';
+      }
+    }
 
-function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+    function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
 
-function copyAll(btn, text) {
-  navigator.clipboard.writeText(text).then(() => {
-    btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
-    btn.style.background = '#dcfce7';
-    btn.style.color = '#16a34a';
-    btn.style.borderColor = '#bbf7d0';
-    setTimeout(() => {
-      btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy All`;
-      btn.style.background = '#f1f5f9';
-      btn.style.color = '#475569';
-      btn.style.borderColor = '#e2e8f0';
-    }, 2000);
-  });
-}
+    function copyAll(btn, text) {
+      navigator.clipboard.writeText(text).then(() => {
+        btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+        btn.style.background = '#dcfce7';
+        btn.style.color = '#16a34a';
+        btn.style.borderColor = '#bbf7d0';
+        setTimeout(() => {
+          btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy All`;
+          btn.style.background = '#f1f5f9';
+          btn.style.color = '#475569';
+          btn.style.borderColor = '#e2e8f0';
+        }, 2000);
+      });
+    }
 
     // ── Delete functions ─────────────────────────────────────────────────────
     let pendingDeleteId = null;
@@ -1337,7 +1449,7 @@ function copyAll(btn, text) {
     }
     async function doChangePwd() {
       const current = document.getElementById('changeCurrent').value.trim();
-      const nw      = document.getElementById('changeNew').value.trim();
+      const nw = document.getElementById('changeNew').value.trim();
       const confirm = document.getElementById('changeConfirm').value.trim();
       if (!current || !nw || !confirm) return setMsg('changePwdMsg', 'All fields are required.', 'error');
       if (nw.length < 6) return setMsg('changePwdMsg', 'New password must be at least 6 characters.', 'error');
@@ -1367,8 +1479,8 @@ function copyAll(btn, text) {
       document.getElementById('forgotPwdOverlay').classList.remove('open');
     }
     async function doForgotPwd() {
-      const secret  = document.getElementById('forgotSecret').value.trim();
-      const nw      = document.getElementById('forgotNew').value.trim();
+      const secret = document.getElementById('forgotSecret').value.trim();
+      const nw = document.getElementById('forgotNew').value.trim();
       const confirm = document.getElementById('forgotConfirm').value.trim();
       if (!secret || !nw || !confirm) return setMsg('forgotPwdMsg', 'All fields are required.', 'error');
       if (nw.length < 6) return setMsg('forgotPwdMsg', 'Password must be at least 6 characters.', 'error');
