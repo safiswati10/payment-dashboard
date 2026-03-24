@@ -513,12 +513,27 @@ select:focus {
   font-family: 'Onest', sans-serif;
   color: var(--text);
   cursor: pointer;
-  transition: background 0.12s;
+  transition: background 0.12s, color 0.12s;
+  border-radius: 0;
+  user-select: none;
+  border-left: 3px solid transparent;
 }
 
-.inline-opt:hover,
-.inline-opt:focus {
-  background: #eef2ff;
+.inline-opt:hover {
+  background: #dde4ff;
+  color: var(--blue);
+  border-left-color: var(--blue);
+}
+
+.inline-opt:active {
+  background: #c7d2fe;
+  color: var(--blue-hover);
+}
+
+.inline-opt.highlighted {
+  background: #dde4ff;
+  color: var(--blue);
+  border-left-color: var(--blue);
 }
 
 .inline-opt-flag {

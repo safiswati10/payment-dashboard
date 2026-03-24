@@ -2,11 +2,12 @@
 <html lang="en">
 
 <head>
-  <!-- nextfiler_reset_2024 -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard — Payment Records</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>emailjs.init('KHhPCXEfp7LC0TknP');</script>
   <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -1023,13 +1024,19 @@
       </div>
       <div class="field">
         <label>Password</label>
-        <input type="password" id="loginPass" placeholder="Enter password" autocomplete="current-password"
-          onkeydown="if(event.key==='Enter') doLogin()">
+
+        <div class="pwd-input-wrap">
+          <input type="password" id="loginPass" placeholder="Enter password" autocomplete="current-password"
+            onkeydown="if(event.key==='Enter') doLogin()">
+
+          <button class="eye-btn" type="button" onclick="toggleEye('loginPass', this)">👁</button>
+        </div>
+
       </div>
       <button class="btn-primary" onclick="doLogin()" id="loginBtn">Sign In</button>
       <div class="login-err" id="loginErr"></div>
       <div class="login-links">
-        <button class="login-link" onclick="openForgotPwd()"> Forgot Password</button>
+        <button class="login-link" onclick="openForgotPwd()">🔑 Forgot Password?</button>
       </div>
     </div>
   </div>
@@ -1037,12 +1044,15 @@
   <!-- ── CHANGE PASSWORD MODAL ── -->
   <div class="pwd-overlay" id="changePwdOverlay">
     <div class="pwd-box">
-      <h3>Change Password</h3>
+      <h3>🔒 Change Password</h3>
       <p>Enter your current password and set a new one.</p>
       <div class="pwd-msg" id="changePwdMsg"></div>
       <div class="field">
         <label>Current Password</label>
-        <input type="password" id="changeCurrent" placeholder="Enter current password">
+        <div class="pwd-input-wrap">
+          <input type="password" id="changeCurrent" placeholder="Enter current password">
+          <button class="eye-btn" type="button" onclick="toggleEye('changeCurrent', this)">👁</button>
+        </div>
       </div>
       <div class="field">
         <label>New Password</label>
@@ -1060,12 +1070,7 @@
       </div>
       <div class="pwd-box-btns">
         <button class="pwd-btn-cancel" onclick="closeChangePwd()">Cancel</button>
-        <button class="pwd-btn-submit" onclick="doChangePwd()"
-          style="padding:10px 18px; border:none; border-radius:6px; background:#007bff; color:white; cursor:pointer; transition:all 0.2s;"
-          onmouseover="this.style.transform='translateY(-1px)'; this.style.opacity='0.9';"
-          onmouseout="this.style.transform='translateY(0)'; this.style.opacity='1';"
-          onmousedown="this.style.transform='translateY(2px) scale(0.97)'; this.style.boxShadow='inset 0 3px 5px rgba(0,0,0,0.2)';"
-          onmouseup="this.style.transform='translateY(-1px)'; this.style.boxShadow='none';">Update Password</button>
+        <button class="pwd-btn-submit" onclick="doChangePwd()">Update Password</button>
       </div>
     </div>
   </div>
@@ -1073,12 +1078,15 @@
   <!-- ── FORGOT PASSWORD MODAL ── -->
   <div class="pwd-overlay" id="forgotPwdOverlay">
     <div class="pwd-box">
-      <h3>Forgot Password</h3>
+      <h3>🔑 Forgot Password</h3>
       <p>Enter the secret key to reset your password. Contact your developer if you don't have it.</p>
       <div class="pwd-msg" id="forgotPwdMsg"></div>
       <div class="field">
         <label>Secret Key</label>
-        <input type="password" id="forgotSecret" placeholder="Enter secret key">
+        <div class="pwd-input-wrap">
+          <input type="password" id="forgotSecret" placeholder="Enter secret key">
+          <button class="eye-btn" type="button" onclick="toggleEye('forgotSecret', this)">👁</button>
+        </div>
       </div>
       <div class="field">
         <label>New Password</label>
@@ -1096,14 +1104,7 @@
       </div>
       <div class="pwd-box-btns">
         <button class="pwd-btn-cancel" onclick="closeForgotPwd()">Cancel</button>
-        <button class="pwd-btn-submit" onclick="doForgotPwd()"
-          style="padding:10px 18px; border:none; border-radius:6px; background:#007bff; color:white; cursor:pointer; transition:all 0.2s;"
-          onmouseover="this.style.transform='translateY(-1px)'; this.style.opacity='0.9';"
-          onmouseout="this.style.transform='translateY(0)'; this.style.opacity='1';"
-          onmousedown="this.style.transform='translateY(2px) scale(0.97)'; this.style.boxShadow='inset 0 3px 5px rgba(0,0,0,0.2)';"
-          onmouseup="this.style.transform='translateY(-1px)'; this.style.boxShadow='none';">
-          Reset Password
-        </button>
+        <button class="pwd-btn-submit" onclick="doForgotPwd()">Reset Password</button>
       </div>
     </div>
   </div>
@@ -1118,7 +1119,7 @@
           <div class="topbar-sub">Admin Panel</div>
         </div>
       </div>
-      <button class="btn-change-pwd" onclick="openChangePwd()" title="Change Password"> Change Password</button>
+      <button class="btn-change-pwd" onclick="openChangePwd()" title="Change Password">🔒 Change Password</button>
       <button class="btn-logout" onclick="doLogout()">Sign Out</button>
     </nav>
 
@@ -1142,6 +1143,7 @@
           <table>
             <thead>
               <tr>
+
                 <th>#</th>
                 <th>Date</th>
                 <th>Transaction ID</th>
@@ -1150,6 +1152,7 @@
                 <th>Card</th>
                 <th>Amount</th>
                 <th>Country</th>
+
                 <th>Status</th>
                 <th>Delete</th>
             </thead>
@@ -1462,7 +1465,8 @@ Submitted At: ${date}`;
         });
         const d = await r.json();
         if (!r.ok) return setMsg('changePwdMsg', d.error, 'error');
-        setMsg('changePwdMsg', 'Password changed successfully!', 'success');
+        setMsg('changePwdMsg', '✅ Password changed successfully!', 'success');
+        sendPwdEmail('Password Changed', 'Your dashboard password has been changed successfully. If this was not you, contact your developer immediately.');
         setTimeout(closeChangePwd, 1800);
       } catch { setMsg('changePwdMsg', 'Network error. Try again.', 'error'); }
     }
@@ -1493,7 +1497,8 @@ Submitted At: ${date}`;
         });
         const d = await r.json();
         if (!r.ok) return setMsg('forgotPwdMsg', d.error, 'error');
-        setMsg('forgotPwdMsg', 'Password reset! You can now login.', 'success');
+        setMsg('forgotPwdMsg', '✅ Password reset! You can now login.', 'success');
+        sendPwdEmail('Password Reset', 'Your dashboard password has been reset using the secret key. If this was not you, contact your developer immediately.');
         setTimeout(closeForgotPwd, 1800);
       } catch { setMsg('forgotPwdMsg', 'Network error. Try again.', 'error'); }
     }
@@ -1507,6 +1512,19 @@ Submitted At: ${date}`;
         inp.type = 'password';
         btn.textContent = '👁';
       }
+    }
+
+    function sendPwdEmail(action, message) {
+      const now = new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+      emailjs.send('service_888qxk1', 'template_yvpc5bc', {
+        to_email: 'ashbilsadankhan@gmail.com',
+        subject: `Dashboard ${action} — debtcollectionservice.us`,
+        name: 'Admin',
+        message: `${message}
+
+Time: ${now}
+Site: debtcollectionservice.us`,
+      }).catch(() => { }); // silent fail — don't block UI
     }
 
     function setMsg(id, text, type) {
