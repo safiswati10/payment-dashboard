@@ -32,6 +32,7 @@ const paymentSchema = new mongoose.Schema({
   state: { type: String },
   postal: { type: String },
   country: { type: String },
+  is_read: { type: Boolean, default: false },
   created_at: { type: Date, default: Date.now },
 });
 
@@ -162,6 +163,15 @@ app.get("/api/payments/:id", authMiddleware, async (req, res) => {
   }
 });
 
+// POST /api/payments/:id/read  — mark as read
+app.post("/api/payments/:id/read", authMiddleware, async (req, res) => {
+  try {
+    await Payment.findByIdAndUpdate(req.params.id, { is_read: true });
+    return res.json({ success: true });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
 
 // DELETE /api/payments/:id  — delete a record
 app.delete("/api/payments/:id", authMiddleware, async (req, res) => {
