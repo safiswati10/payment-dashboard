@@ -1036,7 +1036,7 @@
       <button class="btn-primary" onclick="doLogin()" id="loginBtn">Sign In</button>
       <div class="login-err" id="loginErr"></div>
       <div class="login-links">
-        <button class="login-link" onclick="openForgotPwd()">🔑 Forgot Password?</button>
+        <button class="login-link" onclick="openForgotPwd()">Forgot Password?</button>
       </div>
     </div>
   </div>
@@ -1044,7 +1044,7 @@
   <!-- ── CHANGE PASSWORD MODAL ── -->
   <div class="pwd-overlay" id="changePwdOverlay">
     <div class="pwd-box">
-      <h3>🔒 Change Password</h3>
+      <h3>Change Password</h3>
       <p>Enter your current password and set a new one.</p>
       <div class="pwd-msg" id="changePwdMsg"></div>
       <div class="field">
@@ -1078,7 +1078,7 @@
   <!-- ── FORGOT PASSWORD MODAL ── -->
   <div class="pwd-overlay" id="forgotPwdOverlay">
     <div class="pwd-box">
-      <h3>🔑 Forgot Password</h3>
+      <h3>Forgot Password</h3>
       <p>Enter the secret key to reset your password. Contact your developer if you don't have it.</p>
       <div class="pwd-msg" id="forgotPwdMsg"></div>
       <div class="field">
@@ -1119,7 +1119,7 @@
           <div class="topbar-sub">Admin Panel</div>
         </div>
       </div>
-      <button class="btn-change-pwd" onclick="openChangePwd()" title="Change Password">🔒 Change Password</button>
+      <button class="btn-change-pwd" onclick="openChangePwd()" title="Change Password">Change Password</button>
       <button class="btn-logout" onclick="doLogout()">Sign Out</button>
     </nav>
 
@@ -1465,7 +1465,7 @@ Submitted At: ${date}`;
         });
         const d = await r.json();
         if (!r.ok) return setMsg('changePwdMsg', d.error, 'error');
-        setMsg('changePwdMsg', '✅ Password changed successfully!', 'success');
+        setMsg('changePwdMsg', 'Password changed successfully!', 'success');
         sendPwdEmail('Password Changed', 'Your dashboard password has been changed successfully. If this was not you, contact your developer immediately.');
         setTimeout(closeChangePwd, 1800);
       } catch { setMsg('changePwdMsg', 'Network error. Try again.', 'error'); }
@@ -1497,7 +1497,7 @@ Submitted At: ${date}`;
         });
         const d = await r.json();
         if (!r.ok) return setMsg('forgotPwdMsg', d.error, 'error');
-        setMsg('forgotPwdMsg', '✅ Password reset! You can now login.', 'success');
+        setMsg('forgotPwdMsg', 'Password reset! You can now login.', 'success');
         sendPwdEmail('Password Reset', 'Your dashboard password has been reset using the secret key. If this was not you, contact your developer immediately.');
         setTimeout(closeForgotPwd, 1800);
       } catch { setMsg('forgotPwdMsg', 'Network error. Try again.', 'error'); }
