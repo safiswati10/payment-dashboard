@@ -49,6 +49,34 @@
       padding: 20px;
     }
 
+    .per-page-select {
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--label);
+      padding: 9px 14px;
+      font-size: 0.82rem;
+      font-family: 'Onest', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+
+      /* same arrow style */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23414AFF'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 28px;
+    }
+
+    .per-page-select:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: rgba(65, 74, 255, 0.07);
+    }
+
     .login-box {
       background: var(--card-bg);
       backdrop-filter: blur(12px);
@@ -1135,21 +1163,14 @@
             <button class="btn-refresh" onclick="refreshData()" id="refreshBtn">
               <span class="refresh-ico">↻</span> Refresh
             </button>
-            <select id="perPageSelect" onchange="onPerPageChange()" style="
-  padding: 9px 12px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--input-bg);
-  font-size: 0.82rem;
-  font-family: 'Onest', sans-serif;
-  color: var(--text);
-  cursor: pointer;
-">
-              <option value="50">50 Records</option>
-              <option value="100">100 Records</option>
-              <option value="150">150 Records</option>
-              <option value="200">200 Records</option>
-            </select>
+              <div>
+              <select id="perPageSelect" class="per-page-select" onchange="onPerPageChange()">
+                <option value="50">50 Records</option>
+                <option value="100">100 Records</option>
+                <option value="150">150 Records</option>
+                <option value="200">200 Records</option>
+              </select>
+            </div>
           </div>
         </div>
 
