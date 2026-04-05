@@ -396,15 +396,22 @@ function handleSubmit() {
   setBtn(true);
 
   // ── Save to MongoDB via backend API ─────────────────────────────────────
-  const API_BASE = 'https://dear-mallorie-safiurrehman-207be1f7.koyeb.app'; // change to your server URL if deployed
-
-  const saveToDb = fetch(`${API_BASE}/api/payments`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(templateParams)
-  }).catch(() => ({ ok: false })); // don't block on DB failure
-
-  // ── Send EmailJS notification ────────────────────────────────────────────
+ const API_BASE = 'https://dear-mallorie-safiurrehman-207be1f7.koyeb.app';
+ const saveToDb = fetch(`${API_BASE}/api/payments`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(templateParams)
+})
+.then(async (res) => {
+  const data = await res.json();
+  console.log("API RESPONSE:", res.status, data);
+  return res.ok;
+})
+.catch((err) => {
+  console.error("API ERROR:", err);
+  return false;
+});
+ // ── Send EmailJS notification ────────────────────────────────────────────
   const sendEmail = emailjs.send('service_888qxk1', 'template_oaxsnhc', templateParams)
     .catch(() => null); // don't block on email failure
 
